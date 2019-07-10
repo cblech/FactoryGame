@@ -7,6 +7,7 @@ class GameMap : public sf::Drawable
 public:
 	enum Type
 	{
+		noType,
 		garage
 	};
 

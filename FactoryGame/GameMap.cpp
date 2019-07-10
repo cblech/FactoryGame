@@ -66,6 +66,11 @@ bool GameMap::initByFile(std::string filename)
 				spaces.push_back(newSpace);
 			}
 
+		if (j["type"] == "garage")
+			type = Type::garage;
+		else
+			type = Type::noType;
+
 	}
 	else
 		return false;
