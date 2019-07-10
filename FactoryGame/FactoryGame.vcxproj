@@ -136,6 +136,10 @@
   <ItemGroup>
     <ClInclude Include="debug.h" />
     <ClInclude Include="GameMap.h" />
+    <ClInclude Include="json.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="garage.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -29,5 +29,13 @@
     <ClInclude Include="debug.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="garage.json">
+      <Filter>Ressourcendateien</Filter>
+    </None>
   </ItemGroup>
 </Project>

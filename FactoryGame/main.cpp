@@ -8,10 +8,10 @@
 
 
 void run() {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
 
-	GameMap garage;
-
+	GameMap garage(1);
+	std::cout << (garage.initByFile("garage.json") ? "Korrekt":"Falsch");
 
 	while (window.isOpen())
 	{
