@@ -6,7 +6,7 @@
 
 using namespace nlohmann;
 
-GameMap::GameMap(int id):id(id)
+GameMap::GameMap(int id) :id(id)
 {
 
 }
@@ -14,10 +14,10 @@ GameMap::GameMap(int id):id(id)
 
 GameMap::~GameMap()
 {
-	while (!playingField.spaces.empty())
+	while (!spaces.empty())
 	{
-		Space * tmp = playingField.spaces.back();
-		playingField.spaces.pop_back();
+		Space * tmp = spaces.back();
+		spaces.pop_back();
 		delete tmp;
 	}
 }
@@ -38,7 +38,7 @@ bool GameMap::initByFile(std::string filename)
 	catch (...) {
 		return false;
 	}
-	
+
 	if (j["version"] == "FactoryGameMap0.1")
 	{
 		size.x = j["size"][0];
@@ -48,6 +48,24 @@ bool GameMap::initByFile(std::string filename)
 			return false;
 
 		backgroundSprite.setTexture(backgroundTextrue);
+
+		for (int y = 0; y < size.y; y++)
+			for (int x = 0; x < size.x; x++)
+			{
+				Space * newSpace = new Space(x,y,j["walls"][y][x]);
+
+				newSpace->left =getSpaceByCoord(x - 1, y);
+				newSpace->above = getSpaceByCoord(x, y - 1);
+
+				if (newSpace->left != nullptr)
+					newSpace->left->right = newSpace;
+
+				if (newSpace->above != nullptr)
+					newSpace->above->below = newSpace;
+
+				spaces.push_back(newSpace);
+			}
+
 	}
 	else
 		return false;
@@ -55,3 +73,13 @@ bool GameMap::initByFile(std::string filename)
 
 	return true;
 }
+
+inline GameMap::Space * GameMap::getSpaceByCoord(int x, int y) {
+	for (auto & s : spaces)
+	{
+		if (s->coord.x == x && s->coord.y == y)
+			return s;
+	}
+	return nullptr;
+}
+

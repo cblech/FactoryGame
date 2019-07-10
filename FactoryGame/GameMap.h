@@ -19,13 +19,19 @@ public:
 private:
 	enum SpaceType
 	{
-		none,
-		wall,
-		object
+		none = 0,
+		wall = 1,
+		object = 2
 	};
-	
+
 	struct Space
 	{
+		Space(int x, int y, int type)
+		{
+			coord.x = x;
+			coord.y = y;
+			spaceType = SpaceType(type);
+		}
 		sf::Vector2i coord; //The coordinates of this space
 		SpaceType spaceType; //The type of this space (eg: none/air , wall , ...)
 
@@ -35,22 +41,18 @@ private:
 		Space * right = nullptr; //The neighbor right to this space
 	};
 
-	struct PlayingField
-	{
-		std::vector<Space *> spaces;
-	};
+
+
 
 	int id;
 	Type type;
 	sf::Vector2i size;
 
-	PlayingField playingField;
-
+	std::vector<Space *> spaces;
+	inline Space * getSpaceByCoord(int x, int y);
 
 	sf::Texture backgroundTextrue;
 	sf::Sprite backgroundSprite;
-
-
 
 };
 
