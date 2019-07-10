@@ -14,10 +14,17 @@ GameMap::GameMap(int id):id(id)
 
 GameMap::~GameMap()
 {
+	while (!playingField.spaces.empty())
+	{
+		Space * tmp = playingField.spaces.back();
+		playingField.spaces.pop_back();
+		delete tmp;
+	}
 }
 
 void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
+	//draw the Background
 	target.draw(backgroundSprite, states);
 }
 
