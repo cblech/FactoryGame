@@ -1,24 +1,16 @@
 #include "SFML\Graphics.hpp"
 #include <thread>
+#include "GameMap.h"
+#include <iostream>
+#include "debug.h"
 
 /////////////////////////////////////////////////////////////
-class runningClass
-{
-public:
-	runningClass();
 
-	void run();
-};
 
-runningClass::runningClass()
-{
-
-}
-
-void runningClass::run() {
+void run() {
 	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
 
-	sf::CircleShape shape(100.f);
+	GameMap garage;
 
 
 	while (window.isOpen())
@@ -31,7 +23,7 @@ void runningClass::run() {
 		}
 
 		window.clear(sf::Color(0, 0, 0, 255));
-		window.draw(shape);
+		window.draw(garage);
 		window.display();
 	}
 
@@ -41,7 +33,10 @@ void runningClass::run() {
 /////////////////////////////////////////////////////////////////////////
 int main()
 {
-	std::thread t(&runningClass::run, runningClass());
+
+	//std::cout << debug() << "Test Debug" << std::endl;
+	//std::cout << error() << "Test Error" << std::endl;
+	std::thread t(run);
 
 	t.join();
 
