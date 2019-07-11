@@ -12,7 +12,7 @@ void run() {
 
 	GameMap garage(1);
 	std::cout << (garage.initByFile("garage.json") ? "Korrekt":"Falsch");
-
+	
 
 	while (window.isOpen())
 	{

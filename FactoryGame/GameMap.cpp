@@ -26,6 +26,7 @@ void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	//draw the Background
 	target.draw(backgroundSprite, states);
+	target.draw(carlos, states);
 }
 
 bool GameMap::initByFile(std::string filename)

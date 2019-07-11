@@ -1,8 +1,8 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include <vector>
-
-#define spaceSizePX 64
+#include "GmObjCar.h"
+#include "GlobalDefines.h"
 
 class GameMap : public sf::Drawable
 {
@@ -46,6 +46,8 @@ private:
 	};
 
 
+	//Temporary
+	GmObjCar carlos; 
 
 
 	int id;
@@ -60,5 +62,7 @@ private:
 	Space * mouseHoveringSpace;
 
 	inline Space * getSpaceByCoord(int x, int y);
+
+
 };
 

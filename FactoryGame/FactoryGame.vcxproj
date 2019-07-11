@@ -132,12 +132,15 @@
   <ItemGroup>
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GmObjCar.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GlobalDefines.h" />
+    <ClInclude Include="GmObjCar.h" />
     <ClInclude Include="json.hpp" />
   </ItemGroup>
   <ItemGroup>
