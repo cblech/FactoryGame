@@ -79,7 +79,19 @@ bool GameMap::initByFile(std::string filename)
 	return true;
 }
 
+void GameMap::checkMousePosition(sf::Vector2i pos)
+{
+	//std::cout <<"X: "<< (pos.x / spaceSizePX) << " Y: " << (pos.y / spaceSizePX)<<std::endl;
+
+	mouseHoveringSpace = getSpaceByCoord(pos.x / spaceSizePX, pos.y / spaceSizePX);
+	if(mouseHoveringSpace!=nullptr)
+		std::cout << (mouseHoveringSpace->spaceType == SpaceType::wall ? "Wall" : "Air") << std::endl;
+}
+
 inline GameMap::Space * GameMap::getSpaceByCoord(int x, int y) {
+	if (x < 0 || y < 0 || x >= size.x || y >= size.y)
+		return nullptr;
+
 	for (auto & s : spaces)
 	{
 		if (s->coord.x == x && s->coord.y == y)

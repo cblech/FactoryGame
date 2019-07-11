@@ -13,7 +13,6 @@ void run() {
 	GameMap garage(1);
 	std::cout << (garage.initByFile("garage.json") ? "Korrekt":"Falsch");
 
-	
 
 	while (window.isOpen())
 	{
@@ -23,6 +22,7 @@ void run() {
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+		garage.checkMousePosition(sf::Mouse::getPosition(window));
 
 		window.clear(sf::Color(0, 0, 0, 255));
 		window.draw(garage);

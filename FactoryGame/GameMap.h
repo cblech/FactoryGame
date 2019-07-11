@@ -2,6 +2,8 @@
 #include <SFML\Graphics.hpp>
 #include <vector>
 
+#define spaceSizePX 64
+
 class GameMap : public sf::Drawable
 {
 public:
@@ -17,6 +19,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	bool initByFile(std::string filename);
+	void checkMousePosition(sf::Vector2i pos);
 private:
 	enum SpaceType
 	{
@@ -50,10 +53,12 @@ private:
 	sf::Vector2i size;
 
 	std::vector<Space *> spaces;
-	inline Space * getSpaceByCoord(int x, int y);
 
 	sf::Texture backgroundTextrue;
 	sf::Sprite backgroundSprite;
 
+	Space * mouseHoveringSpace;
+
+	inline Space * getSpaceByCoord(int x, int y);
 };
 
