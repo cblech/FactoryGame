@@ -6,9 +6,8 @@
 
 using namespace nlohmann;
 
-GameMap::GameMap(int id) :id(id)
+GameMap::GameMap(int id) :id(id),carlos(this)
 {
-
 }
 
 
@@ -85,11 +84,28 @@ void GameMap::checkMousePosition(sf::Vector2i pos)
 	//std::cout <<"X: "<< (pos.x / spaceSizePX) << " Y: " << (pos.y / spaceSizePX)<<std::endl;
 
 	mouseHoveringSpace = getSpaceByCoord(pos.x / spaceSizePX, pos.y / spaceSizePX);
-	if(mouseHoveringSpace!=nullptr)
-		std::cout << (mouseHoveringSpace->spaceType == SpaceType::wall ? "Wall" : "Air") << std::endl;
+	if (mouseHoveringSpace != nullptr)
+	{
+		switch (mouseHoveringSpace->spaceType)
+		{
+		case SpaceType::none:
+			std::cout << "Air" << std::endl;
+			break;
+		case SpaceType::wall:
+			std::cout << "Wall" << std::endl;
+			break;
+		case SpaceType::object:
+			std::cout << "Object: " << mouseHoveringSpace->ocupiedBy->getName() <<std::endl;
+			break;
+		default:
+			std::cout << "Dafuq? Wie bist du hier hin gekommen??" << std::endl;
+			break;
+		}
+	}
+		
 }
 
-inline GameMap::Space * GameMap::getSpaceByCoord(int x, int y) {
+inline Space * GameMap::getSpaceByCoord(int x, int y) {
 	if (x < 0 || y < 0 || x >= size.x || y >= size.y)
 		return nullptr;
 

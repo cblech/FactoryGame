@@ -1,8 +1,10 @@
 #include "GmObjCar.h"
 #include "GlobalDefines.h"
 
-GmObjCar::GmObjCar()
+GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 {
+	name = "Your Car";
+
 	size.x = 4;
 	size.y = 7;
 
@@ -13,6 +15,8 @@ GmObjCar::GmObjCar()
 	position.y = 1;
 
 	sprite.setPosition(position.x*spaceSizePX,position.y*spaceSizePX);
+
+	
 }
 
 

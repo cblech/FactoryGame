@@ -142,6 +142,7 @@
     <ClInclude Include="GlobalDefines.h" />
     <ClInclude Include="GmObjCar.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="Space.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="garage.json" />

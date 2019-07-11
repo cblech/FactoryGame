@@ -13,6 +13,7 @@ void run() {
 	GameMap garage(1);
 	std::cout << (garage.initByFile("garage.json") ? "Korrekt":"Falsch");
 	
+	garage.carlos.solveSpaceDependencies();
 
 	while (window.isOpen())
 	{
