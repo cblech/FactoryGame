@@ -15,6 +15,9 @@ void run() {
 	
 	garage.carlos.solveSpaceDependencies();
 
+
+	GameMap * openedMap = &garage;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -22,6 +25,9 @@ void run() {
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+
+			if (event.type == sf::Event::MouseButtonPressed)
+				openedMap->mouseClickEvent(event.mouseButton);
 		}
 		garage.checkMousePosition(sf::Mouse::getPosition(window));
 
@@ -29,7 +35,6 @@ void run() {
 		window.draw(garage);
 		window.display();
 	}
-
 }
 
 

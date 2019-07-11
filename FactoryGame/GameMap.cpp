@@ -83,26 +83,53 @@ void GameMap::checkMousePosition(sf::Vector2i pos)
 {
 	//std::cout <<"X: "<< (pos.x / spaceSizePX) << " Y: " << (pos.y / spaceSizePX)<<std::endl;
 
-	mouseHoveringSpace = getSpaceByCoord(pos.x / spaceSizePX, pos.y / spaceSizePX);
-	if (mouseHoveringSpace != nullptr)
+	Space * newSpace = getSpaceByCoord(pos.x / spaceSizePX, pos.y / spaceSizePX);
+
+	if (newSpace != mouseHoveringSpace) 
 	{
-		switch (mouseHoveringSpace->spaceType)
+		mouseHoveringSpace = newSpace;
+
+		if (mouseHoveringSpace != nullptr)
 		{
-		case SpaceType::none:
-			std::cout << "Air" << std::endl;
-			break;
-		case SpaceType::wall:
-			std::cout << "Wall" << std::endl;
-			break;
-		case SpaceType::object:
-			std::cout << "Object: " << mouseHoveringSpace->ocupiedBy->getName() <<std::endl;
-			break;
-		default:
-			std::cout << "Dafuq? Wie bist du hier hin gekommen??" << std::endl;
-			break;
+			//Executes When mouse goes to a nother Space
+
+			if (mouseHoveringSpace->ocupiedBy != hoveringGameObject)
+			{
+				//Executes when mouse switches from or to an GameObject
+
+				if (hoveringGameObject != nullptr)
+					hoveringGameObject->hoverEnd(pos);
+
+				if (mouseHoveringSpace->ocupiedBy != nullptr)
+					mouseHoveringSpace->ocupiedBy->hoverStart(pos);
+
+				hoveringGameObject = mouseHoveringSpace->ocupiedBy;
+			}
+
+
+			switch (mouseHoveringSpace->spaceType)
+			{
+			case SpaceType::none:
+				std::cout << "Air" << std::endl;
+				break;
+			case SpaceType::wall:
+				std::cout << "Wall" << std::endl;
+				break;
+			case SpaceType::object:
+				std::cout << "Object: " << mouseHoveringSpace->ocupiedBy->getName() <<std::endl;
+				break;
+			default:
+				std::cout << "Dafuq? Wie bist du hier hin gekommen??" << std::endl;
+				break;
+			}
 		}
 	}
-		
+}
+
+void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
+{
+	if(hoveringGameObject != nullptr)
+		hoveringGameObject->click(mouseEvent);
 }
 
 inline Space * GameMap::getSpaceByCoord(int x, int y) {

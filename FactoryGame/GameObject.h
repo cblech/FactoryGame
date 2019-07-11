@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include "Space.h"
 #include <vector>
+#include <SFML\System.hpp>
 
 class GameMap;
 
@@ -19,6 +20,10 @@ public:
 		left,
 		right
 	};
+
+	virtual void click(sf::Event::MouseButtonEvent mouseEvent);
+	virtual void hoverStart(sf::Vector2i mousePosition);
+	virtual void hoverEnd(sf::Vector2i mousePosition);
 
 	std::string getName();
 

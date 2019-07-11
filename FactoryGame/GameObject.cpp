@@ -15,6 +15,18 @@ void GameObject::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 }
 
+void GameObject::click(sf::Event::MouseButtonEvent mouseEvent)
+{
+}
+
+void GameObject::hoverStart(sf::Vector2i mousePosition)
+{
+}
+
+void GameObject::hoverEnd(sf::Vector2i mousePosition)
+{
+}
+
 std::string GameObject::getName()
 {
 	return name;

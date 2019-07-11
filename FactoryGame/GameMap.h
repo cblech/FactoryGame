@@ -25,6 +25,7 @@ public:
 
 	bool initByFile(std::string filename);
 	void checkMousePosition(sf::Vector2i pos);
+	void mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent);
 	friend void GameObject::solveSpaceDependencies();
 
 
@@ -41,6 +42,7 @@ private:
 	sf::Sprite backgroundSprite;
 
 	Space * mouseHoveringSpace;
+	GameObject * hoveringGameObject;
 
 	inline Space * getSpaceByCoord(int x, int y);
 };

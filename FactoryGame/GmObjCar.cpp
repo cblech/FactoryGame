@@ -1,5 +1,6 @@
 #include "GmObjCar.h"
 #include "GlobalDefines.h"
+#include <iostream>
 
 GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 {
@@ -28,4 +29,19 @@ void GmObjCar::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	
 	target.draw(sprite, states);
+}
+
+void GmObjCar::click(sf::Event::MouseButtonEvent mouseEvent)
+{
+	std::cout << "Your Car: mouse click" << std::endl;
+}
+
+void GmObjCar::hoverStart(sf::Vector2i mousePosition)
+{
+	std::cout << "Your Car: mouse hover start" << std::endl;
+}
+
+void GmObjCar::hoverEnd(sf::Vector2i mousePosition)
+{
+	std::cout << "Your Car: mouse hover end" << std::endl;
 }
