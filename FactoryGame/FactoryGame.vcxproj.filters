@@ -27,6 +27,9 @@
     <ClCompile Include="GmObjCar.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMap.h">
@@ -50,10 +53,18 @@
     <ClInclude Include="Space.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="garage.json">
       <Filter>Ressourcendateien</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Credits.txt">
+      <Filter>Ressourcendateien</Filter>
+    </Text>
   </ItemGroup>
 </Project>

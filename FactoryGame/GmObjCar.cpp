@@ -1,6 +1,8 @@
 #include "GmObjCar.h"
 #include "GlobalDefines.h"
 #include <iostream>
+#include "Animation.h"
+#include <SFML\System.hpp>
 
 GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 {
@@ -34,6 +36,8 @@ void GmObjCar::draw(sf::RenderTarget & target, sf::RenderStates states) const
 void GmObjCar::click(sf::Event::MouseButtonEvent mouseEvent)
 {
 	std::cout << "Your Car: mouse click" << std::endl;
+	auto a = std::make_shared<Animation<sf::Vector2f>>([this](sf::Vector2f v) {this->sprite.setScale(v); }, sf::Vector2f (2,2), sf::Vector2f(1,1), .5,  Anim::Type::Linear);
+	Anim::ANIMATIONS.push_back(a);
 }
 
 void GmObjCar::hoverStart(sf::Vector2i mousePosition)
