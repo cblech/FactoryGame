@@ -30,6 +30,9 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="GmObjDoor.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMap.h">
@@ -54,6 +57,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GmObjDoor.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

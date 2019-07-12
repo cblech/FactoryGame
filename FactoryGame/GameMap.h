@@ -4,6 +4,7 @@
 #include "GmObjCar.h"
 #include "GlobalDefines.h"
 #include "Space.h"
+#include "GmObjDoor.h"
 
 class GameMap : public sf::Drawable
 {
@@ -21,6 +22,7 @@ public:
 
 	
 	GmObjCar carlos; //Temporary
+	GmObjDoor doory; //Temporary
 
 
 	bool initByFile(std::string filename);

@@ -16,6 +16,7 @@ void run() {
 	std::cout << (garage.initByFile("garage.json") ? "Korrekt":"Falsch");
 	
 	garage.carlos.solveSpaceDependencies();
+	garage.doory.solveSpaceDependencies();
 
 	sf::Clock deltaClock;
 	double delta = 0;
@@ -39,11 +40,11 @@ void run() {
 		}
 		garage.checkMousePosition(sf::Mouse::getPosition(window));
 
+
+		//Step forward all Animations
 		auto it = Anim::ANIMATIONS.begin();
 		while (it != Anim::ANIMATIONS.end()) {
-
 			(*it)->step(delta);
-
 			if ((*it)->isDone()) {
 				it = Anim::ANIMATIONS.erase(it);
 			}

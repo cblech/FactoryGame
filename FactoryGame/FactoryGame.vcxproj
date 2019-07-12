@@ -134,6 +134,10 @@
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GmObjCar.cpp" />
+    <ClCompile Include="GmObjDoor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +147,10 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlobalDefines.h" />
     <ClInclude Include="GmObjCar.h" />
+    <ClInclude Include="GmObjDoor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Space.h" />
   </ItemGroup>
