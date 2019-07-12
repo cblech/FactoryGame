@@ -8,6 +8,8 @@ GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 {
 	name = "Your Car";
 
+	pointing = Direction::up;
+
 	size.x = 4;
 	size.y = 7;
 
@@ -17,9 +19,9 @@ GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 	position.x = 5;
 	position.y = 1;
 
-	sprite.setPosition(position.x*spaceSizePX,position.y*spaceSizePX);
-
 	
+
+	solveRotation();
 }
 
 
@@ -29,14 +31,15 @@ GmObjCar::~GmObjCar()
 
 void GmObjCar::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	
-	target.draw(sprite, states);
+	GameObject::draw(target, states);
 }
+
 
 void GmObjCar::click(sf::Event::MouseButtonEvent mouseEvent)
 {
+
 	std::cout << "Your Car: mouse click" << std::endl;
-	auto a = std::make_shared<Animation<sf::Vector2f>>([this](sf::Vector2f v) {this->sprite.setScale(v); }, sf::Vector2f (2,2), sf::Vector2f(1,1), .5,  Anim::Type::Linear);
+	auto a = std::make_shared<Animation<sf::Vector2f>>([this](sf::Vector2f v) {this->sprite.setScale(v); }, sf::Vector2f (2,2), sf::Vector2f(1,1), .5,  Anim::Type::FastStart);
 	Anim::ANIMATIONS.push_back(a);
 }
 

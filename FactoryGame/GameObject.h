@@ -44,5 +44,6 @@ protected:
 	GameMap * containingMap; //The map Containing this GameObject
 	std::vector<Space *> ocupiedSpaces; //The Spaces in the containingMap this GameObject ocupies
 
+	void solveRotation();
 };
 
