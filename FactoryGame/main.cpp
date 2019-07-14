@@ -37,6 +37,9 @@ void run() {
 
 			if (event.type == sf::Event::MouseButtonPressed)
 				openedMap->mouseClickEvent(event.mouseButton);
+
+			if (event.type == sf::Event::MouseButtonReleased)
+				openedMap->mouseReleaseEvent(event.mouseButton);
 		}
 		garage.checkMousePosition(sf::Mouse::getPosition(window));
 

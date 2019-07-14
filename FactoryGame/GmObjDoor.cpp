@@ -42,7 +42,7 @@ void GmObjDoor::draw(sf::RenderTarget & target, sf::RenderStates states) const
 }
 
 //Executes, when Object is Clicked
-void GmObjDoor::click(sf::Event::MouseButtonEvent mouseEvent)
+void GmObjDoor::click(sf::Vector2i mousePosition)
 {
 	std::cout << getName()<< ": mouse click" << std::endl;
 }

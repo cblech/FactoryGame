@@ -35,12 +35,22 @@ void GmObjCar::draw(sf::RenderTarget & target, sf::RenderStates states) const
 }
 
 
-void GmObjCar::click(sf::Event::MouseButtonEvent mouseEvent)
+void GmObjCar::click(sf::Vector2i mousePosition)
 {
 
 	std::cout << "Your Car: mouse click" << std::endl;
 	auto a = std::make_shared<Animation<sf::Vector2f>>([this](sf::Vector2f v) {this->sprite.setScale(v); }, sf::Vector2f (2,2), sf::Vector2f(1,1), .5,  Anim::Type::FastStart);
 	Anim::ANIMATIONS.push_back(a);
+}
+
+void GmObjCar::clickStart(sf::Vector2i mousePosition)
+{
+	std::cout << "Your Car: mouse click start" << std::endl;
+}
+
+void GmObjCar::clickEnd(sf::Vector2i mousePosition)
+{
+	std::cout << "Your Car: mouse click end" << std::endl;
 }
 
 void GmObjCar::hoverStart(sf::Vector2i mousePosition)
@@ -51,4 +61,14 @@ void GmObjCar::hoverStart(sf::Vector2i mousePosition)
 void GmObjCar::hoverEnd(sf::Vector2i mousePosition)
 {
 	std::cout << "Your Car: mouse hover end" << std::endl;
+}
+
+void GmObjCar::holdStart(sf::Vector2i mousePosition)
+{
+	std::cout << "Your Car: mouse hold start" << std::endl;
+}
+
+void GmObjCar::holdEnd(sf::Vector2i mousePosition)
+{
+	std::cout << "Your Car: mouse hold end" << std::endl;
 }

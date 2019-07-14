@@ -8,7 +8,6 @@ GameObject::GameObject(GameMap * map):containingMap(map),name("Generic GameObjec
 
 GameObject::~GameObject()
 {
-	removeSpaceDependencies();
 }
 
 void GameObject::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -17,7 +16,15 @@ void GameObject::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-void GameObject::click(sf::Event::MouseButtonEvent mouseEvent)
+void GameObject::click(sf::Vector2i mousePosition)
+{
+}
+
+void GameObject::clickStart(sf::Vector2i mousePosition)
+{
+}
+
+void GameObject::clickEnd(sf::Vector2i mousePosition)
 {
 }
 
@@ -26,6 +33,14 @@ void GameObject::hoverStart(sf::Vector2i mousePosition)
 }
 
 void GameObject::hoverEnd(sf::Vector2i mousePosition)
+{
+}
+
+void GameObject::holdStart(sf::Vector2i mousePosition)
+{
+}
+
+void GameObject::holdEnd(sf::Vector2i mousePosition)
 {
 }
 

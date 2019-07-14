@@ -107,7 +107,7 @@ void GameMap::checkMousePosition(sf::Vector2i pos)
 				hoveringGameObject = mouseHoveringSpace->ocupiedBy;
 			}
 
-
+/*
 			switch (mouseHoveringSpace->spaceType)
 			{
 			case SpaceType::none:
@@ -122,15 +122,49 @@ void GameMap::checkMousePosition(sf::Vector2i pos)
 			default:
 				std::cout << "Dafuq? Wie bist du hier hin gekommen??" << std::endl;
 				break;
-			}
+			}*/
+		}
+	}
+
+	//Handle mouse hold events
+	if (!holding && holdingGameObject != nullptr && holdingGameObject==hoveringGameObject && holdStartTime.getElapsedTime() > sf::milliseconds(500))
+	{
+		holdingGameObject->holdStart(pos);
+		holding = true;
+	}
+}
+
+//This function is executet, when any mousebutton is pressed
+void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
+{
+	//when the left mouse button is pressed
+	if (mouseEvent.button == sf::Mouse::Button::Left) {
+		if (hoveringGameObject != nullptr)
+		{
+			hoveringGameObject->clickStart({ mouseEvent.x,mouseEvent.y });
+
+			holdStartTime.restart();
+			holdingGameObject = hoveringGameObject;
 		}
 	}
 }
 
-void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
+//This function is executet, when any mousebutton is released
+void GameMap::mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent)
 {
-	if(hoveringGameObject != nullptr)
-		hoveringGameObject->click(mouseEvent);
+	//When the left mouse button is released
+	if (mouseEvent.button == sf::Mouse::Button::Left) {
+		if (holdingGameObject != nullptr)
+		{
+			if (holding)
+			{
+				holdingGameObject->holdEnd({ mouseEvent.x,mouseEvent.y });
+				holding = false;
+			}
+			holdingGameObject->clickEnd({ mouseEvent.x,mouseEvent.y });
+			holdingGameObject = nullptr;
+		}
+	}
 }
 
 inline Space * GameMap::getSpaceByCoord(int x, int y) {

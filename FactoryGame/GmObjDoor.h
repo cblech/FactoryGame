@@ -12,7 +12,7 @@ public:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	void click(sf::Event::MouseButtonEvent mouseEvent) override;
+	void click(sf::Vector2i mousePosition) override;
 	void hoverStart(sf::Vector2i mousePosition)override;
 	void hoverEnd(sf::Vector2i mousePosition)override;
 };

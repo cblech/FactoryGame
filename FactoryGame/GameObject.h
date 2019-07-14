@@ -23,18 +23,26 @@ public:
 
 
 	//events
-	virtual void click(sf::Event::MouseButtonEvent mouseEvent);
+	virtual void click(sf::Vector2i mousePosition);
+	virtual void clickStart(sf::Vector2i mousePosition);
+	virtual void clickEnd(sf::Vector2i mousePosition);
+
 	virtual void hoverStart(sf::Vector2i mousePosition);
 	virtual void hoverEnd(sf::Vector2i mousePosition);
 
-	std::string getName();
+	virtual void holdStart(sf::Vector2i mousePosition);
+	virtual void holdEnd(sf::Vector2i mousePosition);
 
+	std::string getName();
+	bool isHoldable() { return holdable; }
 
 	void solveSpaceDependencies();
 	void removeSpaceDependencies();
 
 protected:
 	std::string name;
+
+	bool holdable;
 
 	sf::Vector2i position;
 	sf::Vector2i size;
