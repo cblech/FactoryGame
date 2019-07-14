@@ -161,6 +161,10 @@ void GameMap::mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent)
 				holdingGameObject->holdEnd({ mouseEvent.x,mouseEvent.y });
 				holding = false;
 			}
+			else
+			{
+				holdingGameObject->click({ mouseEvent.x,mouseEvent.y });
+			}
 			holdingGameObject->clickEnd({ mouseEvent.x,mouseEvent.y });
 			holdingGameObject = nullptr;
 		}
