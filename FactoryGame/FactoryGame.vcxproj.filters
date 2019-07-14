@@ -69,7 +69,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Credits.txt">
+    <Text Include="License.txt">
       <Filter>Ressourcendateien</Filter>
     </Text>
   </ItemGroup>
