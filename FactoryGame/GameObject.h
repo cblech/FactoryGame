@@ -21,6 +21,8 @@ public:
 		right
 	};
 
+
+	//events
 	virtual void click(sf::Event::MouseButtonEvent mouseEvent);
 	virtual void hoverStart(sf::Vector2i mousePosition);
 	virtual void hoverEnd(sf::Vector2i mousePosition);
