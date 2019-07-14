@@ -54,6 +54,9 @@ protected:
 	sf::Texture texture;
 	sf::Sprite sprite;
 
+	sf::Texture highlightTexture;
+	sf::Sprite highlightSprite;
+
 	GameMap * containingMap; //The map Containing this GameObject
 	std::vector<Space *> ocupiedSpaces; //The Spaces in the containingMap this GameObject ocupies
 

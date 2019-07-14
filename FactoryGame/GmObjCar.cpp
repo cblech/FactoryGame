@@ -14,13 +14,15 @@ GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 	size.y = 7;
 
 	texture.loadFromFile("car.png");
-	sprite.setTexture(texture);
+	highlightTexture.loadFromFile("car_highlight.png");
 
 	position.x = 5;
 	position.y = 1;
 
 	
 
+	sprite.setTexture(texture);
+	highlightSprite.setTexture(highlightTexture);
 	solveRotation();
 }
 
@@ -55,11 +57,13 @@ void GmObjCar::clickEnd(sf::Vector2i mousePosition)
 
 void GmObjCar::hoverStart(sf::Vector2i mousePosition)
 {
+	GameObject::hoverStart(mousePosition);
 	std::cout << "Your Car: mouse hover start" << std::endl;
 }
 
 void GmObjCar::hoverEnd(sf::Vector2i mousePosition)
 {
+	GameObject::hoverEnd(mousePosition);
 	std::cout << "Your Car: mouse hover end" << std::endl;
 }
 

@@ -12,7 +12,7 @@ GameObject::~GameObject()
 
 void GameObject::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-
+	target.draw(highlightSprite, states);
 	target.draw(sprite, states);
 }
 
@@ -30,10 +30,12 @@ void GameObject::clickEnd(sf::Vector2i mousePosition)
 
 void GameObject::hoverStart(sf::Vector2i mousePosition)
 {
+	highlightSprite.setColor(sf::Color::Black);
 }
 
 void GameObject::hoverEnd(sf::Vector2i mousePosition)
 {
+	highlightSprite.setColor(sf::Color::Transparent);
 }
 
 void GameObject::holdStart(sf::Vector2i mousePosition)
@@ -99,18 +101,26 @@ void GameObject::solveRotation()
 	case Direction::up:
 		sprite.setRotation(0.f);
 		sprite.setPosition(position.x*spaceSizePX, position.y*spaceSizePX);
+		highlightSprite.setRotation(0.f);
+		highlightSprite.setPosition(position.x*spaceSizePX, position.y*spaceSizePX);
 		break;
 	case Direction::down:
 		sprite.setRotation(180.f);
 		sprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
+		highlightSprite.setRotation(180.f);
+		highlightSprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
 		break;
 	case Direction::left:
 		sprite.setRotation(270.f);
 		sprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
+		highlightSprite.setRotation(270.f);
+		highlightSprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
 		break;
 	case Direction::right:
 		sprite.setRotation(90.f);
 		sprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
+		highlightSprite.setRotation(90.f);
+		highlightSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
 		break;
 	}
 	
