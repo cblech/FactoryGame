@@ -44,6 +44,10 @@ void GameObject::holdEnd(sf::Vector2i mousePosition)
 {
 }
 
+void GameObject::rightClick(sf::Vector2i mousePosition)
+{
+}
+
 std::string GameObject::getName()
 {
 	return name;

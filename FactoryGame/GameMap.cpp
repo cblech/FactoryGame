@@ -137,7 +137,7 @@ void GameMap::checkMousePosition(sf::Vector2i pos)
 //This function is executet, when any mousebutton is pressed
 void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
 {
-	//when the left mouse button is pressed
+	//when the LEFT mouse button is pressed
 	if (mouseEvent.button == sf::Mouse::Button::Left) {
 		if (hoveringGameObject != nullptr)
 		{
@@ -146,6 +146,12 @@ void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
 			holdStartTime.restart();
 			holdingGameObject = hoveringGameObject;
 		}
+	}
+	//when the RIGHT mouse button is pressed
+	else if (mouseEvent.button == sf::Mouse::Button::Right)
+	{
+		if(hoveringGameObject != nullptr)
+			hoveringGameObject->rightClick({ mouseEvent.x,mouseEvent.y });
 	}
 }
 

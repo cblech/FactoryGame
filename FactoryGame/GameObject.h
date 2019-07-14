@@ -32,6 +32,9 @@ public:
 
 	virtual void holdStart(sf::Vector2i mousePosition);
 	virtual void holdEnd(sf::Vector2i mousePosition);
+	
+	virtual void rightClick(sf::Vector2i mousePosition);
+
 
 	std::string getName();
 	bool isHoldable() { return holdable; }

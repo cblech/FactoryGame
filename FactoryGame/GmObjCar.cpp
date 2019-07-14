@@ -72,3 +72,9 @@ void GmObjCar::holdEnd(sf::Vector2i mousePosition)
 {
 	std::cout << "Your Car: mouse hold end" << std::endl;
 }
+
+void GmObjCar::rightClick(sf::Vector2i mousePosition)
+{
+	std::cout << "Your Car: mouse right click" << std::endl;
+
+}

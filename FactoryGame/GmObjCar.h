@@ -21,4 +21,6 @@ public:
 
 	void holdStart(sf::Vector2i mousePosition)override;
 	void holdEnd(sf::Vector2i mousePosition)override;
+
+	void rightClick(sf::Vector2i mousePosition) override;
 };
