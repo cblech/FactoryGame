@@ -13,7 +13,9 @@ GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 	size.x = 4;
 	size.y = 7;
 
-	texture.loadFromFile("car.png");
+	textureOffset = { -spaceSizePX,-spaceSizePX };
+
+	mainTexture.loadFromFile("car.png");
 	highlightTexture.loadFromFile("car_highlight.png");
 
 	position.x = 5;
@@ -21,7 +23,7 @@ GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 
 	moveable = true;
 
-	sprite.setTexture(texture);
+	mainSprite.setTexture(mainTexture);
 	highlightSprite.setTexture(highlightTexture);
 	solvePosition();
 }
@@ -42,7 +44,7 @@ void GmObjCar::click(sf::Vector2i mousePosition)
 	GameObject::click(mousePosition);
 
 	std::cout << "Your Car: mouse click" << std::endl;
-	auto a = std::make_shared<Animation<sf::Vector2f>>([this](sf::Vector2f v) {this->sprite.setScale(v); }, sf::Vector2f (2,2), sf::Vector2f(1,1), .5,  Anim::Type::FastStart);
+	auto a = std::make_shared<Animation<sf::Vector2f>>([this](sf::Vector2f v) {this->mainSprite.setScale(v); }, sf::Vector2f (2,2), sf::Vector2f(1,1), .5,  Anim::Type::FastStart);
 	Anim::ANIMATIONS.push_back(a);
 }
 

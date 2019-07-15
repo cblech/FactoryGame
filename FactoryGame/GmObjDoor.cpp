@@ -15,14 +15,14 @@ GmObjDoor::GmObjDoor(GameMap * map):GameObject(map)
 	size.y = 1;
 
 	//the main texture of the object
-	texture.loadFromFile("door.png");
+	mainTexture.loadFromFile("door.png");
 	
 	//the position
 	position.x = 3;
 	position.y = 8;
 
 	//Don't modify
-	sprite.setTexture(texture);
+	mainSprite.setTexture(mainTexture);
 	solvePosition();
 }
 

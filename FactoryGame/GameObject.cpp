@@ -20,7 +20,7 @@ GameObject::~GameObject()
 void GameObject::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(highlightSprite, states);
-	target.draw(sprite, states);
+	target.draw(mainSprite, states);
 }
 
 void GameObject::click(sf::Vector2i mousePosition)
@@ -52,9 +52,9 @@ void GameObject::holdStart(sf::Vector2i mousePosition)
 	if (isMoveable())
 	{
 		carried = true;
-		moveingOffset = sf::Vector2i(sprite.getPosition()) - mousePosition;
+		moveingOffset = sf::Vector2i(mainSprite.getPosition()-textureOffset) - mousePosition;
 		containingMap->carriedObject = this;
-		sprite.setColor(COLOR_TX_CARRY);
+		mainSprite.setColor(COLOR_TX_CARRY);
 	}
 }
 
@@ -66,7 +66,7 @@ void GameObject::holdEnd(sf::Vector2i mousePosition)
 		containingMap->carriedObject = nullptr;
 
 		solvePosition(false);
-		sprite.setColor(COLOR_TX_FULLYVISIBLE);
+		mainSprite.setColor(COLOR_TX_FULLYVISIBLE);
 		highlightSprite.setColor(COLOR_TRANSPARENT);
 
 		containingMap->emptyHoveringGameObject();
@@ -97,14 +97,14 @@ void GameObject::carrieTick(sf::Vector2i mousePosition)
 	if (containingMap->checkForFreeSpaces(carriedOverSpace, carriedOverSpace + size,this))
 	{
 		highlightSprite.setColor(COLOR_HL_POSITIVE);
-		sprite.setPosition(sf::Vector2f(carriedOverSpace*spaceSizePX));
-		highlightSprite.setPosition(sf::Vector2f(carriedOverSpace*spaceSizePX));
+		mainSprite.setPosition(sf::Vector2f(carriedOverSpace*spaceSizePX)+textureOffset);
+		highlightSprite.setPosition(sf::Vector2f(carriedOverSpace*spaceSizePX)+textureOffset);
 	}
 	else
 	{
 		highlightSprite.setColor(COLOR_HL_NEGATIVE);
-		sprite.setPosition(sf::Vector2f(mousePosition + moveingOffset));
-		highlightSprite.setPosition(sf::Vector2f(mousePosition + moveingOffset));
+		mainSprite.setPosition(sf::Vector2f(mousePosition + moveingOffset)+textureOffset);
+		highlightSprite.setPosition(sf::Vector2f(mousePosition + moveingOffset)+textureOffset);
 	}
 }
 
@@ -159,37 +159,37 @@ void GameObject::solvePosition(bool updateRotation)
 	case Direction::up:
 		if (updateRotation)
 		{
-			sprite.setRotation(0.f);
+			mainSprite.setRotation(0.f);
 			highlightSprite.setRotation(0.f);
 		}
-		sprite.setPosition(position.x*spaceSizePX, position.y*spaceSizePX);
-		highlightSprite.setPosition(position.x*spaceSizePX, position.y*spaceSizePX);
+		mainSprite.setPosition(sf::Vector2f(position*spaceSizePX)+textureOffset);
+		highlightSprite.setPosition(sf::Vector2f(position*spaceSizePX) + textureOffset);
 		break;
 	case Direction::down:
 		if (updateRotation)
 		{
-			sprite.setRotation(180.f);
+			mainSprite.setRotation(180.f);
 			highlightSprite.setRotation(180.f);
 		}
-		sprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
+		mainSprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
 		highlightSprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
 		break;
 	case Direction::left:
 		if (updateRotation)
 		{
-			sprite.setRotation(270.f);
+			mainSprite.setRotation(270.f);
 			highlightSprite.setRotation(270.f);
 		}
-		sprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
+		mainSprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
 		highlightSprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
 		break;
 	case Direction::right:
 		if (updateRotation)
 		{
-			sprite.setRotation(90.f);
+			mainSprite.setRotation(90.f);
 			highlightSprite.setRotation(90.f);
 		}
-		sprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
+		mainSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
 		highlightSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
 		break;
 	}

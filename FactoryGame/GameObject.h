@@ -34,8 +34,9 @@ public:
 	virtual void holdEnd(sf::Vector2i mousePosition);
 	
 	virtual void rightClick(sf::Vector2i mousePosition);
+	//events - END
 
-	void carrieTick(sf::Vector2i mousePosition);
+	void carrieTick(sf::Vector2i mousePosition); // Ticks every frame round, in witch this object is carried
 
 	std::string getName();
 	bool isMoveable() { return moveable; }
@@ -53,10 +54,12 @@ protected:
 	sf::Vector2i size;
 	Direction pointing;
 
-	sf::Vector2i moveingOffset;
+	sf::Vector2i moveingOffset; //while moveing this object, this variable carries the offset between the mouse and this objects origin.
 
-	sf::Texture texture;
-	sf::Sprite sprite;
+	sf::Vector2f textureOffset; //the offset between the main/highlightSprite and the position of this GameObject
+
+	sf::Texture mainTexture;
+	sf::Sprite mainSprite;
 
 	sf::Texture highlightTexture;
 	sf::Sprite highlightSprite;
