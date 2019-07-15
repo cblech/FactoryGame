@@ -89,4 +89,5 @@ void GmObjCar::rightClick(sf::Vector2i mousePosition)
 	GameObject::rightClick(mousePosition);
 	std::cout << "Your Car: mouse right click" << std::endl;
 
+
 }

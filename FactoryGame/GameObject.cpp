@@ -2,7 +2,7 @@
 #include "GameMap.h"
 
 #define COLOR_TRANSPARENT sf::Color::Transparent
-#define COLOR_HL_HOVER sf::Color(0,0,0,180)
+#define COLOR_HL_HOVER sf::Color(0,0,0,80)
 #define COLOR_HL_POSITIVE sf::Color(0,150,0,180)
 #define COLOR_HL_NEGATIVE sf::Color(150,0,0,180)
 #define COLOR_TX_CARRY sf::Color(255,255,255,200)
@@ -85,6 +85,7 @@ void GameObject::holdEnd(sf::Vector2i mousePosition)
 
 void GameObject::rightClick(sf::Vector2i mousePosition)
 {
+	
 }
 
 void GameObject::carrieTick(sf::Vector2i mousePosition)

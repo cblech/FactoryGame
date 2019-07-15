@@ -33,6 +33,9 @@ public:
 
 	GameObject * carriedObject = nullptr;
 
+	//Main Map Camera
+	sf::View mapView;
+
 	void emptyHoveringGameObject();
 
 	bool checkForFreeSpaces(sf::Vector2i from, sf::Vector2i to,GameObject * self = nullptr);

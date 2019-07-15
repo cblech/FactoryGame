@@ -8,6 +8,7 @@ using namespace nlohmann;
 
 GameMap::GameMap(int id) :id(id),carlos(this),doory(this)
 {
+	mapView.reset({ 0,0,1280,720 });
 }
 
 
@@ -24,7 +25,7 @@ GameMap::~GameMap()
 void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	//draw the Background
-	target.draw(backgroundSprite, states);
+	target.draw(backgroundSprite,states);
 	target.draw(carlos, states);
 	target.draw(doory, states);
 }
@@ -158,6 +159,7 @@ void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
 	{
 		if(hoveringGameObject != nullptr)
 			hoveringGameObject->rightClick({ mouseEvent.x,mouseEvent.y });
+
 	}
 }
 
