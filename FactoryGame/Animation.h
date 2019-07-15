@@ -40,8 +40,6 @@ template <typename T>
 class Animation : public Anim
 {
 public:
-
-
 	Animation(std::function<void(T)> settingFunction, T from, T to, double finishIn, Anim::Type type)
 		:Anim(finishIn,type)
 		, settingFunction(settingFunction)

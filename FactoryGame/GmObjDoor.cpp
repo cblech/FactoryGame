@@ -23,7 +23,7 @@ GmObjDoor::GmObjDoor(GameMap * map):GameObject(map)
 
 	//Don't modify
 	sprite.setTexture(texture);
-	solveRotation();
+	solvePosition();
 }
 
 

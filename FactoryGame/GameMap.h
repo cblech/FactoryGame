@@ -31,7 +31,13 @@ public:
 	void mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent);
 	friend void GameObject::solveSpaceDependencies();
 
+	GameObject * carriedObject = nullptr;
 
+	void emptyHoveringGameObject();
+
+	bool checkForFreeSpaces(sf::Vector2i from, sf::Vector2i to,GameObject * self = nullptr);
+	inline Space * getSpaceByCoord(int x, int y);
+	inline Space * getSpaceByCoord(sf::Vector2i pos);
 private:
 
 
@@ -50,7 +56,5 @@ private:
 	bool holding;
 
 	sf::Clock holdStartTime;
-
-	inline Space * getSpaceByCoord(int x, int y);
 };
 

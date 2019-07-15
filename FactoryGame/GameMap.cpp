@@ -132,6 +132,12 @@ void GameMap::checkMousePosition(sf::Vector2i pos)
 		holdingGameObject->holdStart(pos);
 		holding = true;
 	}
+
+	//nedes to do stuff when an Object is Carreid
+	if (carriedObject != nullptr)
+	{
+		carriedObject->carrieTick(pos);
+	}
 }
 
 //This function is executet, when any mousebutton is pressed
@@ -177,6 +183,41 @@ void GameMap::mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent)
 	}
 }
 
+void GameMap::emptyHoveringGameObject()
+{
+	hoveringGameObject = nullptr;
+	mouseHoveringSpace = nullptr;
+}
+
+bool GameMap::checkForFreeSpaces(sf::Vector2i from, sf::Vector2i to,GameObject * self)
+{
+	sf::Vector2i topLeft((from.x < to.x) ? from.x : to.x, (from.y < to.y) ? from.y : to.y);
+	sf::Vector2i bottomRight((from.x > to.x) ? from.x : to.x, (from.y > to.y) ? from.y : to.y);
+
+	int width = bottomRight.x - topLeft.x;
+	int height = bottomRight.y - topLeft.y;
+
+	Space * testSpace = getSpaceByCoord(topLeft);
+
+	for (int x = 0; x < width; x++)
+	{
+		if (testSpace == nullptr)
+			return false;
+		Space * tmpSpace = testSpace;
+		for (int y = 0; y < height; y++)
+		{
+			if (tmpSpace == nullptr)
+				return false;
+			if (tmpSpace->spaceType != SpaceType::none)
+				if (tmpSpace->spaceType == SpaceType::object && tmpSpace->ocupiedBy == self); else return false;
+
+			tmpSpace = tmpSpace->below;
+		}
+		testSpace = testSpace->right;
+	}
+	return true;
+}
+
 inline Space * GameMap::getSpaceByCoord(int x, int y) {
 	if (x < 0 || y < 0 || x >= size.x || y >= size.y)
 		return nullptr;
@@ -187,5 +228,10 @@ inline Space * GameMap::getSpaceByCoord(int x, int y) {
 			return s;
 	}
 	return nullptr;
+}
+
+inline Space * GameMap::getSpaceByCoord(sf::Vector2i pos)
+{
+	return getSpaceByCoord(pos.x,pos.y);
 }
 

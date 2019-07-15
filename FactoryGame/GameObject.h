@@ -35,9 +35,10 @@ public:
 	
 	virtual void rightClick(sf::Vector2i mousePosition);
 
+	void carrieTick(sf::Vector2i mousePosition);
 
 	std::string getName();
-	bool isHoldable() { return holdable; }
+	bool isMoveable() { return moveable; }
 
 	void solveSpaceDependencies();
 	void removeSpaceDependencies();
@@ -45,11 +46,14 @@ public:
 protected:
 	std::string name;
 
-	bool holdable;
+	bool moveable = false;
+	bool carried = false;
 
 	sf::Vector2i position;
 	sf::Vector2i size;
 	Direction pointing;
+
+	sf::Vector2i moveingOffset;
 
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -57,9 +61,10 @@ protected:
 	sf::Texture highlightTexture;
 	sf::Sprite highlightSprite;
 
-	GameMap * containingMap; //The map Containing this GameObject
 	std::vector<Space *> ocupiedSpaces; //The Spaces in the containingMap this GameObject ocupies
+	GameMap * containingMap; //The map Containing this GameObject
 
-	void solveRotation();
+	void solvePosition(bool updateRotation = true);
+
 };
 
