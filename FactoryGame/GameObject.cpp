@@ -10,7 +10,7 @@
 
 GameObject::GameObject(GameMap * map) :containingMap(map), name("Generic GameObject")
 {
-
+	highlightSprite.setColor(COLOR_TRANSPARENT);
 }
 
 GameObject::~GameObject()
