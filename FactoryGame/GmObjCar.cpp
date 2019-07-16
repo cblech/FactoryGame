@@ -39,7 +39,7 @@ void GmObjCar::draw(sf::RenderTarget & target, sf::RenderStates states) const
 }
 
 
-void GmObjCar::click(sf::Vector2i mousePosition)
+void GmObjCar::click(MapPixelCoor mousePosition)
 {
 	GameObject::click(mousePosition);
 
@@ -48,43 +48,43 @@ void GmObjCar::click(sf::Vector2i mousePosition)
 	Anim::ANIMATIONS.push_back(a);
 }
 
-void GmObjCar::clickStart(sf::Vector2i mousePosition)
+void GmObjCar::clickStart(MapPixelCoor mousePosition)
 {
 	GameObject::clickStart(mousePosition);
 	std::cout << "Your Car: mouse click start" << std::endl;
 }
 
-void GmObjCar::clickEnd(sf::Vector2i mousePosition)
+void GmObjCar::clickEnd(MapPixelCoor mousePosition)
 {
 	GameObject::clickEnd(mousePosition);
 	std::cout << "Your Car: mouse click end" << std::endl;
 }
 
-void GmObjCar::hoverStart(sf::Vector2i mousePosition)
+void GmObjCar::hoverStart(MapPixelCoor mousePosition)
 {
 	GameObject::hoverStart(mousePosition);
 	std::cout << "Your Car: mouse hover start" << std::endl;
 }
 
-void GmObjCar::hoverEnd(sf::Vector2i mousePosition)
+void GmObjCar::hoverEnd(MapPixelCoor mousePosition)
 {
 	GameObject::hoverEnd(mousePosition);
 	std::cout << "Your Car: mouse hover end" << std::endl;
 }
 
-void GmObjCar::holdStart(sf::Vector2i mousePosition)
+void GmObjCar::holdStart(MapPixelCoor mousePosition)
 {
 	GameObject::holdStart(mousePosition);
 	std::cout << "Your Car: mouse hold start" << std::endl;
 }
 
-void GmObjCar::holdEnd(sf::Vector2i mousePosition)
+void GmObjCar::holdEnd(MapPixelCoor mousePosition)
 {
 	GameObject::holdEnd(mousePosition);
 	std::cout << "Your Car: mouse hold end" << std::endl;
 }
 
-void GmObjCar::rightClick(sf::Vector2i mousePosition)
+void GmObjCar::rightClick(MapPixelCoor mousePosition)
 {
 	GameObject::rightClick(mousePosition);
 	std::cout << "Your Car: mouse right click" << std::endl;

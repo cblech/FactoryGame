@@ -20,7 +20,7 @@ void run() {
 	GameMap * activeMap = nullptr;
 
 	//Creating garage map
-	GameMap garage(1);
+	GameMap garage(1,&mapRenderTexture);
 	std::cout << (garage.initByFile("garage.json") ? "Korrekt\n":"Falsch\n");
 	activeMap = &garage;
 

@@ -3,6 +3,7 @@
 #include "Space.h"
 #include <vector>
 #include <SFML\System.hpp>
+#include "Coords.h"
 
 class GameMap;
 
@@ -23,20 +24,20 @@ public:
 
 
 	//events
-	virtual void click(sf::Vector2i mousePosition);
-	virtual void clickStart(sf::Vector2i mousePosition);
-	virtual void clickEnd(sf::Vector2i mousePosition);
+	virtual void click(MapPixelCoor mousePosition);
+	virtual void clickStart(MapPixelCoor mousePosition);
+	virtual void clickEnd(MapPixelCoor mousePosition);
 
-	virtual void hoverStart(sf::Vector2i mousePosition);
-	virtual void hoverEnd(sf::Vector2i mousePosition);
+	virtual void hoverStart(MapPixelCoor mousePosition);
+	virtual void hoverEnd(MapPixelCoor mousePosition);
 
-	virtual void holdStart(sf::Vector2i mousePosition);
-	virtual void holdEnd(sf::Vector2i mousePosition);
+	virtual void holdStart(MapPixelCoor mousePosition);
+	virtual void holdEnd(MapPixelCoor mousePosition);
 	
-	virtual void rightClick(sf::Vector2i mousePosition);
+	virtual void rightClick(MapPixelCoor mousePosition);
 	//events - END
 
-	void carrieTick(sf::Vector2i mousePosition); // Ticks every frame round, in witch this object is carried
+	void carrieTick(MapPixelCoor mousePosition); // Ticks every frame round, in witch this object is carried
 
 	std::string getName();
 	bool isMoveable() { return moveable; }
@@ -50,13 +51,13 @@ protected:
 	bool moveable = false;
 	bool carried = false;
 
-	sf::Vector2i position;
-	sf::Vector2i size;
+	MapSpaceCoor position;
+	MapSpaceCoor size;
 	Direction pointing;
 
-	sf::Vector2i moveingOffset; //while moveing this object, this variable carries the offset between the mouse and this objects origin.
+	MapPixelCoor moveingOffset; //while moveing this object, this variable carries the offset between the mouse and this objects origin.
 
-	sf::Vector2f textureOffset; //the offset between the main/highlightSprite and the position of this GameObject
+	MapPixelCoor textureOffset; //the offset between the main/highlightSprite and the position of this GameObject
 
 	sf::Texture mainTexture;
 	sf::Sprite mainSprite;

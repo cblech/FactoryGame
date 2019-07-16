@@ -6,7 +6,7 @@
 
 using namespace nlohmann;
 
-GameMap::GameMap(int id) :id(id),carlos(this),doory(this)
+GameMap::GameMap(int id, sf::RenderTarget * drawnIn) :id(id),carlos(this),doory(this),drawnIn(drawnIn)
 {
 	mapView.reset({ 0,0,1280,720 });
 }
@@ -26,8 +26,33 @@ void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	//draw the Background
 	target.draw(backgroundSprite,states);
-	target.draw(carlos, states);
 	target.draw(doory, states);
+	target.draw(carlos, states);
+}
+
+MapPixelCoor GameMap::ScreenPixelCoorTOMapPixelCoor(ScreenPixelCoor spc)
+{
+	return drawnIn->mapPixelToCoords(spc);
+}
+
+ScreenPixelCoor GameMap::MapPixelCoorTOScreenPixelCoor(MapPixelCoor mpc)
+{
+	return drawnIn->mapCoordsToPixel(mpc);
+}
+
+MapSpaceCoor GameMap::MapPixelCoorTOMapSpaceCoor(MapPixelCoor mpc)
+{
+	return MapSpaceCoor(mpc/float(spaceSizePX));
+}
+
+MapPixelCoor GameMap::MapSpaceCoorTOMapPixelCoor(MapSpaceCoor msc)
+{
+	return MapPixelCoor(msc*spaceSizePX);
+}
+
+void GameMap::setDrawnIn(sf::RenderTarget * rt)
+{
+	drawnIn = rt;
 }
 
 bool GameMap::initByFile(std::string filename)
@@ -56,8 +81,8 @@ bool GameMap::initByFile(std::string filename)
 			{
 				Space * newSpace = new Space(x,y,j["walls"][y][x]);
 
-				newSpace->left =getSpaceByCoord(x - 1, y);
-				newSpace->above = getSpaceByCoord(x, y - 1);
+				newSpace->left =getSpaceByMapSpaceCoor(x - 1, y);
+				newSpace->above = getSpaceByMapSpaceCoor(x, y - 1);
 
 				if (newSpace->left != nullptr)
 					newSpace->left->right = newSpace;
@@ -81,11 +106,11 @@ bool GameMap::initByFile(std::string filename)
 	return true;
 }
 
-void GameMap::checkMousePosition(sf::Vector2i pos)
+void GameMap::checkMousePosition(ScreenPixelCoor pos)
 {
 	//std::cout <<"X: "<< (pos.x / spaceSizePX) << " Y: " << (pos.y / spaceSizePX)<<std::endl;
 
-	Space * newSpace = getSpaceByCoord(pos.x / spaceSizePX, pos.y / spaceSizePX);
+	Space * newSpace = getSpaceByMapSpaceCoor(MapPixelCoorTOMapSpaceCoor(ScreenPixelCoorTOMapPixelCoor(pos)));
 
 	if (newSpace != mouseHoveringSpace) 
 	{
@@ -100,10 +125,10 @@ void GameMap::checkMousePosition(sf::Vector2i pos)
 				//Executes when mouse switches from or to an GameObject
 
 				if (hoveringGameObject != nullptr)
-					hoveringGameObject->hoverEnd(pos);
+					hoveringGameObject->hoverEnd(ScreenPixelCoorTOMapPixelCoor(pos));
 
 				if (mouseHoveringSpace->ocupiedBy != nullptr)
-					mouseHoveringSpace->ocupiedBy->hoverStart(pos);
+					mouseHoveringSpace->ocupiedBy->hoverStart(ScreenPixelCoorTOMapPixelCoor(pos));
 
 				hoveringGameObject = mouseHoveringSpace->ocupiedBy;
 			}
@@ -126,29 +151,30 @@ void GameMap::checkMousePosition(sf::Vector2i pos)
 			}*/
 		}
 	}
-
+	
 	//Handle mouse hold events
 	if (!holding && holdingGameObject != nullptr && holdingGameObject==hoveringGameObject && holdStartTime.getElapsedTime() > sf::milliseconds(500))
 	{
-		holdingGameObject->holdStart(pos);
+		holdingGameObject->holdStart(ScreenPixelCoorTOMapPixelCoor(pos));
 		holding = true;
 	}
 
 	//nedes to do stuff when an Object is Carreid
 	if (carriedObject != nullptr)
 	{
-		carriedObject->carrieTick(pos);
+		carriedObject->carrieTick(ScreenPixelCoorTOMapPixelCoor(pos));
 	}
 }
 
 //This function is executet, when any mousebutton is pressed
 void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
 {
+
 	//when the LEFT mouse button is pressed
 	if (mouseEvent.button == sf::Mouse::Button::Left) {
 		if (hoveringGameObject != nullptr)
 		{
-			hoveringGameObject->clickStart({ mouseEvent.x,mouseEvent.y });
+			hoveringGameObject->clickStart(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
 
 			holdStartTime.restart();
 			holdingGameObject = hoveringGameObject;
@@ -158,8 +184,9 @@ void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
 	else if (mouseEvent.button == sf::Mouse::Button::Right)
 	{
 		if(hoveringGameObject != nullptr)
-			hoveringGameObject->rightClick({ mouseEvent.x,mouseEvent.y });
+			hoveringGameObject->rightClick(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
 
+		mapView.rotate(30.f);
 	}
 }
 
@@ -172,14 +199,14 @@ void GameMap::mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent)
 		{
 			if (holding)
 			{
-				holdingGameObject->holdEnd({ mouseEvent.x,mouseEvent.y });
+				holdingGameObject->holdEnd(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
 				holding = false;
 			}
 			else
 			{
-				holdingGameObject->click({ mouseEvent.x,mouseEvent.y });
+				holdingGameObject->click(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
 			}
-			holdingGameObject->clickEnd({ mouseEvent.x,mouseEvent.y });
+			holdingGameObject->clickEnd(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
 			holdingGameObject = nullptr;
 		}
 	}
@@ -191,15 +218,15 @@ void GameMap::emptyHoveringGameObject()
 	mouseHoveringSpace = nullptr;
 }
 
-bool GameMap::checkForFreeSpaces(sf::Vector2i from, sf::Vector2i to,GameObject * self)
+bool GameMap::checkForFreeSpaces(MapSpaceCoor from, MapSpaceCoor to,GameObject * self)
 {
-	sf::Vector2i topLeft((from.x < to.x) ? from.x : to.x, (from.y < to.y) ? from.y : to.y);
-	sf::Vector2i bottomRight((from.x > to.x) ? from.x : to.x, (from.y > to.y) ? from.y : to.y);
+	MapSpaceCoor topLeft((from.x < to.x) ? from.x : to.x, (from.y < to.y) ? from.y : to.y);
+	MapSpaceCoor bottomRight((from.x > to.x) ? from.x : to.x, (from.y > to.y) ? from.y : to.y);
 
 	int width = bottomRight.x - topLeft.x;
 	int height = bottomRight.y - topLeft.y;
 
-	Space * testSpace = getSpaceByCoord(topLeft);
+	Space * testSpace = getSpaceByMapSpaceCoor(topLeft);
 
 	for (int x = 0; x < width; x++)
 	{
@@ -220,7 +247,7 @@ bool GameMap::checkForFreeSpaces(sf::Vector2i from, sf::Vector2i to,GameObject *
 	return true;
 }
 
-inline Space * GameMap::getSpaceByCoord(int x, int y) {
+inline Space * GameMap::getSpaceByMapSpaceCoor(int x, int y) {
 	if (x < 0 || y < 0 || x >= size.x || y >= size.y)
 		return nullptr;
 
@@ -232,8 +259,8 @@ inline Space * GameMap::getSpaceByCoord(int x, int y) {
 	return nullptr;
 }
 
-inline Space * GameMap::getSpaceByCoord(sf::Vector2i pos)
+inline Space * GameMap::getSpaceByMapSpaceCoor(MapSpaceCoor pos)
 {
-	return getSpaceByCoord(pos.x,pos.y);
+	return getSpaceByMapSpaceCoor(pos.x,pos.y);
 }
 

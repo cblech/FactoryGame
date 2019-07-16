@@ -15,18 +15,24 @@ public:
 		garage
 	};
 
-	GameMap(int id);
+	GameMap(int id,sf::RenderTarget * drawnIn);
 	~GameMap();
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	
+	MapPixelCoor ScreenPixelCoorTOMapPixelCoor(ScreenPixelCoor spc);
+	ScreenPixelCoor MapPixelCoorTOScreenPixelCoor(MapPixelCoor mpc);
+
+	MapSpaceCoor MapPixelCoorTOMapSpaceCoor(MapPixelCoor mpc);
+	MapPixelCoor MapSpaceCoorTOMapPixelCoor(MapSpaceCoor msc);
+
 	GmObjCar carlos; //Temporary
 	GmObjDoor doory; //Temporary
 
+	void setDrawnIn(sf::RenderTarget * rt);
 
 	bool initByFile(std::string filename);
-	void checkMousePosition(sf::Vector2i pos);
+	void checkMousePosition(ScreenPixelCoor pos);
 	void mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent);
 	void mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent);
 	friend void GameObject::solveSpaceDependencies();
@@ -38,15 +44,16 @@ public:
 
 	void emptyHoveringGameObject();
 
-	bool checkForFreeSpaces(sf::Vector2i from, sf::Vector2i to,GameObject * self = nullptr);
-	inline Space * getSpaceByCoord(int x, int y);
-	inline Space * getSpaceByCoord(sf::Vector2i pos);
+	bool checkForFreeSpaces(MapSpaceCoor from, MapSpaceCoor to,GameObject * self = nullptr);
+	inline Space * getSpaceByMapSpaceCoor(int x, int y);
+	inline Space * getSpaceByMapSpaceCoor(MapSpaceCoor pos);
 private:
 
 
 	int id;
 	Type type;
-	sf::Vector2i size;
+	MapSpaceCoor size;
+	sf::RenderTarget * drawnIn;
 
 	std::vector<Space *> spaces;
 

@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Coords.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameObject.h" />

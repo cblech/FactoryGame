@@ -23,42 +23,42 @@ void GameObject::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(mainSprite, states);
 }
 
-void GameObject::click(sf::Vector2i mousePosition)
+void GameObject::click(MapPixelCoor mousePosition)
 {
 }
 
-void GameObject::clickStart(sf::Vector2i mousePosition)
+void GameObject::clickStart(MapPixelCoor mousePosition)
 {
 }
 
-void GameObject::clickEnd(sf::Vector2i mousePosition)
+void GameObject::clickEnd(MapPixelCoor mousePosition)
 {
 }
 
-void GameObject::hoverStart(sf::Vector2i mousePosition)
+void GameObject::hoverStart(MapPixelCoor mousePosition)
 {
 	if(!carried)
 		highlightSprite.setColor(COLOR_HL_HOVER);
 }
 
-void GameObject::hoverEnd(sf::Vector2i mousePosition)
+void GameObject::hoverEnd(MapPixelCoor mousePosition)
 {
 	if(!carried)
 		highlightSprite.setColor(COLOR_TRANSPARENT);
 }
 
-void GameObject::holdStart(sf::Vector2i mousePosition)
+void GameObject::holdStart(MapPixelCoor mousePosition)
 {
 	if (isMoveable())
 	{
 		carried = true;
-		moveingOffset = sf::Vector2i(mainSprite.getPosition()-textureOffset) - mousePosition;
+		moveingOffset = MapPixelCoor(mainSprite.getPosition()-textureOffset) - mousePosition;
 		containingMap->carriedObject = this;
 		mainSprite.setColor(COLOR_TX_CARRY);
 	}
 }
 
-void GameObject::holdEnd(sf::Vector2i mousePosition)
+void GameObject::holdEnd(MapPixelCoor mousePosition)
 {
 	if (carried)
 	{
@@ -72,7 +72,7 @@ void GameObject::holdEnd(sf::Vector2i mousePosition)
 		containingMap->emptyHoveringGameObject();
 
 
-		sf::Vector2i carriedOverSpace = ((mousePosition + moveingOffset) + sf::Vector2i(spaceSizePX / 2, spaceSizePX / 2)) / spaceSizePX;
+		MapSpaceCoor carriedOverSpace = containingMap->MapPixelCoorTOMapSpaceCoor((mousePosition + moveingOffset) + MapPixelCoor(spaceSizePX / 2, spaceSizePX / 2));
 		if (containingMap->checkForFreeSpaces(carriedOverSpace, carriedOverSpace + size, this))
 		{
 			position = carriedOverSpace;
@@ -83,16 +83,15 @@ void GameObject::holdEnd(sf::Vector2i mousePosition)
 	}
 }
 
-void GameObject::rightClick(sf::Vector2i mousePosition)
+void GameObject::rightClick(MapPixelCoor mousePosition)
 {
 	
 }
 
-void GameObject::carrieTick(sf::Vector2i mousePosition)
+void GameObject::carrieTick(MapPixelCoor mousePosition)
 {
-
-
-	sf::Vector2i carriedOverSpace = ((mousePosition + moveingOffset) + sf::Vector2i(spaceSizePX / 2, spaceSizePX / 2)) / spaceSizePX;
+	
+	MapSpaceCoor carriedOverSpace = containingMap->MapPixelCoorTOMapSpaceCoor((mousePosition + moveingOffset) + MapPixelCoor(spaceSizePX / 2, spaceSizePX / 2));
 
 	//Check if placeable
 	if (containingMap->checkForFreeSpaces(carriedOverSpace, carriedOverSpace + size,this))
@@ -117,7 +116,7 @@ std::string GameObject::getName()
 void GameObject::solveSpaceDependencies()
 {
 	removeSpaceDependencies();
-	Space * tmpSpace = containingMap->getSpaceByCoord(position.x, position.y);
+	Space * tmpSpace = containingMap->getSpaceByMapSpaceCoor(position.x, position.y);
 
 	bool upOrDown = (pointing == Direction::down || pointing == Direction::up);
 	int width = upOrDown ? size.x : size.y;
@@ -163,10 +162,11 @@ void GameObject::solvePosition(bool updateRotation)
 			mainSprite.setRotation(0.f);
 			highlightSprite.setRotation(0.f);
 		}
-		mainSprite.setPosition(sf::Vector2f(position*spaceSizePX)+textureOffset);
+		mainSprite.setPosition(containingMap->MapSpaceCoorTOMapPixelCoor(position)+textureOffset);
 		highlightSprite.setPosition(sf::Vector2f(position*spaceSizePX) + textureOffset);
 		break;
-	case Direction::down:
+	
+	/*case Direction::down:
 		if (updateRotation)
 		{
 			mainSprite.setRotation(180.f);
@@ -192,7 +192,7 @@ void GameObject::solvePosition(bool updateRotation)
 		}
 		mainSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
 		highlightSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
-		break;
+		break;*/
 	}
 
 }

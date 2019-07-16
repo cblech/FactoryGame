@@ -42,19 +42,19 @@ void GmObjDoor::draw(sf::RenderTarget & target, sf::RenderStates states) const
 }
 
 //Executes, when Object is Clicked
-void GmObjDoor::click(sf::Vector2i mousePosition)
+void GmObjDoor::click(MapPixelCoor mousePosition)
 {
 	std::cout << getName()<< ": mouse click" << std::endl;
 }
 
 //Executes, when Mouse starts hovering the Object
-void GmObjDoor::hoverStart(sf::Vector2i mousePosition)
+void GmObjDoor::hoverStart(MapPixelCoor mousePosition)
 {
 	std::cout << getName() << ": mouse hover start" << std::endl;
 }
 
 //Executes, when Mouse stops hovering the Object
-void GmObjDoor::hoverEnd(sf::Vector2i mousePosition)
+void GmObjDoor::hoverEnd(MapPixelCoor mousePosition)
 {
 	std::cout << getName() << ": mouse hover end" << std::endl;
 }

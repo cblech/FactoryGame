@@ -12,15 +12,15 @@ public:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	void click(sf::Vector2i mousePosition) override;
-	void clickStart(sf::Vector2i mousePosition) override;
-	void clickEnd(sf::Vector2i mousePosition) override;
+	void click(MapPixelCoor mousePosition) override;
+	void clickStart(MapPixelCoor mousePosition) override;
+	void clickEnd(MapPixelCoor mousePosition) override;
 
-	void hoverStart(sf::Vector2i mousePosition)override;
-	void hoverEnd(sf::Vector2i mousePosition)override;
+	void hoverStart(MapPixelCoor mousePosition)override;
+	void hoverEnd(MapPixelCoor mousePosition)override;
 
-	void holdStart(sf::Vector2i mousePosition)override;
-	void holdEnd(sf::Vector2i mousePosition)override;
+	void holdStart(MapPixelCoor mousePosition)override;
+	void holdEnd(MapPixelCoor mousePosition)override;
 
-	void rightClick(sf::Vector2i mousePosition) override;
+	void rightClick(MapPixelCoor mousePosition) override;
 };
