@@ -74,7 +74,5 @@ protected:
 
 };
 
-Direction operator+(const Direction & left, const Direction & right)
-{
-	return Direction((int(left)+int(right))%4);
-}
+Direction operator+(const Direction & left, const Direction & right);
+

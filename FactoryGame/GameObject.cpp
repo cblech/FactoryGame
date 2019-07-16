@@ -197,3 +197,7 @@ void GameObject::solvePosition(bool updateRotation)
 
 }
 
+Direction operator+(const Direction & left, const Direction & right)
+{
+	return Direction((int(left) + int(right)) % 4);
+}
