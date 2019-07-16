@@ -7,6 +7,13 @@
 
 class GameMap;
 
+enum Direction {
+	up = 0,
+	right = 1,
+	down = 2,
+	left = 3
+};
+
 class GameObject :public sf::Drawable
 {
 public:
@@ -15,12 +22,7 @@ public:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	enum Direction {
-		up,
-		down,
-		left,
-		right
-	};
+
 
 
 	//events
@@ -72,3 +74,7 @@ protected:
 
 };
 
+Direction operator+(const Direction & left, const Direction & right)
+{
+	return Direction((int(left)+int(right))%4);
+}

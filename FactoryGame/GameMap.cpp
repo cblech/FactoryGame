@@ -183,10 +183,14 @@ void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
 	//when the RIGHT mouse button is pressed
 	else if (mouseEvent.button == sf::Mouse::Button::Right)
 	{
-		if(hoveringGameObject != nullptr)
+		if (carriedObject != nullptr)
+		{
+			carriedObject->rightClick(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
+		}
+		else if(hoveringGameObject != nullptr)
 			hoveringGameObject->rightClick(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
 
-		mapView.rotate(30.f);
+		//mapView.rotate(30.f);
 	}
 }
 
