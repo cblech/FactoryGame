@@ -3,12 +3,14 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "Clamp.h"
 
 using namespace nlohmann;
 
-GameMap::GameMap(int id, sf::RenderTarget * drawnIn) :id(id),carlos(this),doory(this),drawnIn(drawnIn)
+GameMap::GameMap(int id, sf::RenderTarget * drawnIn, sf::RenderTarget * drawnInWind, float pixelRatio) :id(id),carlos(this),doory(this),drawnIn(drawnIn),drawnInWind(drawnInWind),pixelRatio(pixelRatio)
 {
 	mapView.reset({ 0,0,1280,720 });
+
 }
 
 
@@ -32,7 +34,7 @@ void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 MapPixelCoor GameMap::ScreenPixelCoorTOMapPixelCoor(ScreenPixelCoor spc)
 {
-	return drawnIn->mapPixelToCoords(spc);
+	return drawnIn->mapPixelToCoords(sf::Vector2i(drawnInWind->mapPixelToCoords(spc)));
 }
 
 ScreenPixelCoor GameMap::MapPixelCoorTOScreenPixelCoor(MapPixelCoor mpc)
@@ -164,12 +166,18 @@ void GameMap::checkMousePosition(ScreenPixelCoor pos)
 	{
 		carriedObject->carrieTick(ScreenPixelCoorTOMapPixelCoor(pos));
 	}
+
+	//Stuff for Window dragging 
+	if (cameraIsDraged)
+	{
+		moveCamera(mousePositionWhileDragged-ScreenPixelCoorTOMapPixelCoor(pos));
+		//mousePositionWhileDragged = ScreenPixelCoorTOMapPixelCoor(pos);
+	}
 }
 
 //This function is executet, when any mousebutton is pressed
 void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
 {
-
 	//when the LEFT mouse button is pressed
 	if (mouseEvent.button == sf::Mouse::Button::Left) {
 		if (hoveringGameObject != nullptr)
@@ -192,6 +200,13 @@ void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
 
 		//mapView.rotate(30.f);
 	}
+	//start dragging Camera
+	else if (mouseEvent.button == sf::Mouse::Button::Middle)
+	{
+		cameraIsDraged = true;
+		mousePositionWhileDragged = ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y });
+	}
+
 }
 
 //This function is executet, when any mousebutton is released
@@ -214,6 +229,61 @@ void GameMap::mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent)
 			holdingGameObject = nullptr;
 		}
 	}
+	else if (mouseEvent.button == sf::Mouse::Button::Middle)
+	{
+		cameraIsDraged = false;
+	}
+}
+
+sf::View GameMap::getMapView()
+{
+	return mapView;
+}
+
+void GameMap::setMapView(sf::View view)
+{
+	mapView = view;
+	zoomCamera(0);
+}
+
+void GameMap::moveCamera(Direction dir, double delta)
+{
+	const double movementspeed = double(zoomLevel*zoomLevel) ;
+	switch (dir)
+	{
+	case up:
+		moveCamera(MapPixelCoor(0,-movementspeed*delta));
+		break;
+	case right:
+		moveCamera(MapPixelCoor(movementspeed * delta, 0));
+		break;
+	case down:
+		moveCamera(MapPixelCoor(0, movementspeed * delta));
+		break;
+	case left:
+		moveCamera(MapPixelCoor(-movementspeed * delta, 0));
+		break;
+	default:
+		break;
+	}
+}
+
+void GameMap::moveCamera(MapPixelCoor offset)
+{
+	mapView.move(offset);
+}
+
+void GameMap::zoomCamera(double delta)
+{
+	zoomLevel -= delta * zoomSpeed;
+	zoomLevel = clamp<int>(zoomLevel, minZoomLevel, maxZoomLevel);
+
+	mapView.setSize(zoomLevel*zoomLevel*pixelRatio, zoomLevel*zoomLevel);
+}
+
+void GameMap::setPixelRatio(float ratio)
+{
+	pixelRatio = ratio;
 }
 
 void GameMap::emptyHoveringGameObject()
@@ -242,8 +312,9 @@ bool GameMap::checkForFreeSpaces(MapSpaceCoor from, MapSpaceCoor to,GameObject *
 			if (tmpSpace == nullptr)
 				return false;
 			if (tmpSpace->spaceType != SpaceType::none)
-				if (tmpSpace->spaceType == SpaceType::object && tmpSpace->ocupiedBy == self); else return false;
-
+				if (!(tmpSpace->spaceType == SpaceType::object && tmpSpace->ocupiedBy == self))
+					return false;
+					
 			tmpSpace = tmpSpace->below;
 		}
 		testSpace = testSpace->right;

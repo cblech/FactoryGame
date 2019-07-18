@@ -66,8 +66,8 @@ void GameObject::holdEnd(MapPixelCoor mousePosition)
 		containingMap->carriedObject = nullptr;
 
 		solvePosition(false);
-		mainSprite.setColor(COLOR_TX_FULLYVISIBLE);
 		highlightSprite.setColor(COLOR_TRANSPARENT);
+		mainSprite.setColor(COLOR_TX_FULLYVISIBLE);
 
 		containingMap->emptyHoveringGameObject();
 

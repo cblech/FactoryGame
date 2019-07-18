@@ -11,26 +11,25 @@
 
 void run() {
 	//Creating the RenderWindow
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!",sf::Style::Titlebar|sf::Style::Close);
 
 	//Creating the Map
 	sf::RenderTexture mapRenderTexture;
-	mapRenderTexture.create(1280, 720);
+	mapRenderTexture.create(window.getSize().x,window.getSize().y);
 	sf::Sprite mapSprite;
 	GameMap * activeMap = nullptr;
 
+
 	//Creating garage map
-	GameMap garage(1,&mapRenderTexture);
-	std::cout << (garage.initByFile("garage.json") ? "Korrekt\n":"Falsch\n");
+	GameMap garage(1,&mapRenderTexture,&window,float(window.getSize().x)/window.getSize().y);
+	std::cout << (garage.initByFile("shipyard.json") ? "Korrekt\n":"Falsch\n");
 	activeMap = &garage;
 
 	garage.carlos.solveSpaceDependencies();
 	garage.doory.solveSpaceDependencies();
 
-
 	sf::Clock deltaClock;
 	double delta = 0;
-
 
 	GameMap * openedMap = &garage;
 
@@ -42,17 +41,49 @@ void run() {
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			switch (event.type)
+			{
+			case sf::Event::Closed:
 				window.close();
-
-			if (event.type == sf::Event::MouseButtonPressed)
+				break;
+			case sf::Event::MouseButtonPressed:
 				openedMap->mouseClickEvent(event.mouseButton);
-
-			if (event.type == sf::Event::MouseButtonReleased)
+				break;
+			case sf::Event::MouseButtonReleased:
 				openedMap->mouseReleaseEvent(event.mouseButton);
+				break;
+			case sf::Event::MouseWheelMoved:
+				openedMap->zoomCamera(event.mouseWheel.delta);
+				break;
+			case sf::Event::Resized:
+				//TODO for every map
+				//window.setView(sf::View({0.f,0.f}, { float(event.size.width), float(event.size.height) }));
+				//mapRenderTexture.create(event.size.width, event.size.height);
+				openedMap->setPixelRatio(float(event.size.width) / event.size.height);
+				
+				//openedMap->mapView.setViewport(sf::FloatRect(0.f, 0.f,2.f, 2.f));
+
+				openedMap->zoomCamera(0);
+				break;
+			default:
+				break;
+			}
 		}
+		//Mouse Tick
 		garage.checkMousePosition(sf::Mouse::getPosition(window));
 
+		//Camera move tick
+		if (window.hasFocus())
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+				openedMap->moveCamera(Direction::up, delta);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				openedMap->moveCamera(Direction::left, delta);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				openedMap->moveCamera(Direction::down, delta);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+				openedMap->moveCamera(Direction::right, delta);
+		}
 
 		//Step forward all Animations
 		auto it = Anim::ANIMATIONS.begin();
@@ -66,7 +97,7 @@ void run() {
 		}
 
 		//Rendering Map to mapRenderTexture
-		mapRenderTexture.setView(activeMap->mapView);
+		mapRenderTexture.setView(activeMap->getMapView());
 		mapRenderTexture.clear(sf::Color(0, 0, 0, 255));
 		mapRenderTexture.draw(garage);
 		mapRenderTexture.display();

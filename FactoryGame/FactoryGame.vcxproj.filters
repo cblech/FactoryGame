@@ -33,6 +33,9 @@
     <ClCompile Include="GmObjDoor.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Clamp.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMap.h">
@@ -65,9 +68,15 @@
     <ClInclude Include="Coords.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Clamp.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="garage.json">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="shipyard.json">
       <Filter>Ressourcendateien</Filter>
     </None>
   </ItemGroup>

@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Clamp.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GmObjCar.cpp" />
@@ -142,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Clamp.h" />
     <ClInclude Include="Coords.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="GameMap.h" />
@@ -157,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="garage.json" />
+    <None Include="shipyard.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

@@ -15,7 +15,7 @@ public:
 		garage
 	};
 
-	GameMap(int id,sf::RenderTarget * drawnIn);
+	GameMap(int id,sf::RenderTarget * drawnIn,sf::RenderTarget * drawnInWind,float pixelRatio);
 	~GameMap();
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -42,6 +42,14 @@ public:
 	//Main Map Camera
 	sf::View mapView;
 
+	sf::View getMapView();
+	void setMapView(sf::View view);
+	void moveCamera(Direction dir, double delta);
+	void moveCamera(MapPixelCoor offset);
+	void zoomCamera(double delta);
+	void setPixelRatio(float ratio);
+
+	//Spaces
 	void emptyHoveringGameObject();
 
 	bool checkForFreeSpaces(MapSpaceCoor from, MapSpaceCoor to,GameObject * self = nullptr);
@@ -54,12 +62,26 @@ private:
 	Type type;
 	MapSpaceCoor size;
 	sf::RenderTarget * drawnIn;
+	sf::RenderTarget * drawnInWind;
 
 	std::vector<Space *> spaces;
 
 	sf::Texture backgroundTextrue;
 	sf::Sprite backgroundSprite;
 
+
+	//Main Map Camera
+	
+	float pixelRatio;
+	int zoomLevel = 27;
+	int zoomSpeed = 3;
+	int maxZoomLevel = 100;
+	int minZoomLevel = 21;
+
+	bool cameraIsDraged = false;
+	MapPixelCoor mousePositionWhileDragged;
+
+	//Spaces
 	Space * mouseHoveringSpace;
 	GameObject * hoveringGameObject;
 	GameObject * holdingGameObject;
@@ -67,4 +89,3 @@ private:
 
 	sf::Clock holdStartTime;
 };
-
