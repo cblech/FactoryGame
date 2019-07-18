@@ -140,6 +140,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapDatabase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -155,6 +156,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="MapDatabase.h" />
     <ClInclude Include="Space.h" />
   </ItemGroup>
   <ItemGroup>

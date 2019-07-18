@@ -7,9 +7,10 @@
 
 using namespace nlohmann;
 
-GameMap::GameMap(int id, sf::RenderTarget * drawnIn, sf::RenderTarget * drawnInWind, float pixelRatio) :id(id),carlos(this),doory(this),drawnIn(drawnIn),drawnInWind(drawnInWind),pixelRatio(pixelRatio)
+GameMap::GameMap(int id, sf::RenderTarget * drawnIn, float pixelRatio) :id(id),carlos(this),doory(this),drawnIn(drawnIn),pixelRatio(pixelRatio)
 {
 	mapView.reset({ 0,0,1280,720 });
+
 
 }
 
@@ -24,6 +25,16 @@ GameMap::~GameMap()
 	}
 }
 
+std::string GameMap::getName()
+{
+	return name;
+}
+
+std::string GameMap::getDescription()
+{
+	return description;
+}
+
 void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	//draw the Background
@@ -34,7 +45,7 @@ void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 MapPixelCoor GameMap::ScreenPixelCoorTOMapPixelCoor(ScreenPixelCoor spc)
 {
-	return drawnIn->mapPixelToCoords(sf::Vector2i(drawnInWind->mapPixelToCoords(spc)));
+	return drawnIn->mapPixelToCoords(spc);
 }
 
 ScreenPixelCoor GameMap::MapPixelCoorTOScreenPixelCoor(MapPixelCoor mpc)
@@ -70,6 +81,9 @@ bool GameMap::initByFile(std::string filename)
 
 	if (j["version"] == "FactoryGameMap0.1")
 	{
+		name = j["name"].get<std::string>();
+		description = j["description"].get<std::string>();
+
 		size.x = j["size"][0];
 		size.y = j["size"][1];
 
@@ -284,6 +298,11 @@ void GameMap::zoomCamera(double delta)
 void GameMap::setPixelRatio(float ratio)
 {
 	pixelRatio = ratio;
+}
+
+void GameMap::setDrawIn(sf::RenderTarget * drawIn)
+{
+	this->drawnIn = drawIn;
 }
 
 void GameMap::emptyHoveringGameObject()

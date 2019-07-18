@@ -15,8 +15,11 @@ public:
 		garage
 	};
 
-	GameMap(int id,sf::RenderTarget * drawnIn,sf::RenderTarget * drawnInWind,float pixelRatio);
+	GameMap(int id,sf::RenderTarget * drawnIn,float pixelRatio);
 	~GameMap();
+
+	std::string getName();
+	std::string getDescription();
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -49,6 +52,7 @@ public:
 	void zoomCamera(double delta);
 	void setPixelRatio(float ratio);
 
+	void setDrawIn(sf::RenderTarget * drawIn);
 	//Spaces
 	void emptyHoveringGameObject();
 
@@ -59,10 +63,11 @@ private:
 
 
 	int id;
+	std::string name;
+	std::string description;
 	Type type;
 	MapSpaceCoor size;
 	sf::RenderTarget * drawnIn;
-	sf::RenderTarget * drawnInWind;
 
 	std::vector<Space *> spaces;
 
