@@ -15,7 +15,7 @@ GmObjDoor::GmObjDoor(GameMap * map):GameObject(map)
 	size.y = 1;
 
 	//the main texture of the object
-	mainTexture.loadFromFile("door.png");
+	mainTexture.loadFromFile("recources/door.png");
 	
 	//the position
 	position.x = 3;

@@ -135,13 +135,25 @@
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GmObjCar.cpp" />
-    <ClCompile Include="GmObjDoor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="GmObjDoor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDatabase.cpp" />
     <ClCompile Include="Options.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="recources\car.png" />
+    <Image Include="recources\car_highlight.png" />
+    <Image Include="recources\door.png" />
+    <Image Include="recources\garageBkg.png" />
+    <Image Include="recources\shipyardBkg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="recources\defalut_options.json" />
+    <None Include="recources\garage.json" />
+    <None Include="recources\shipyard.json" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -152,22 +164,11 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlobalDefines.h" />
     <ClInclude Include="GmObjCar.h" />
-    <ClInclude Include="GmObjDoor.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="GmObjDoor.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MapDatabase.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Space.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="defalut_options.json" />
-    <None Include="garage.json" />
-    <None Include="shipyard.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="License.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

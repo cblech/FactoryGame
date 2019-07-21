@@ -35,11 +35,11 @@ GameMap * MapDatabase::getMap(unsigned int id)
 	switch (id)
 	{
 	case 1:
-		if(!newMap->initByFile("garage.json"))
+		if(!newMap->initByFile("recources/garage.json"))
 			return nullptr;
 		break;
 	case 2:
-		if (!newMap->initByFile("shipyard.json"))
+		if (!newMap->initByFile("recources/shipyard.json"))
 			return nullptr;
 		break;
 	default:

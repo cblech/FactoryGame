@@ -15,7 +15,7 @@ Options::Options()
 	}
 	catch (...) {
 		try {
-			std::ifstream di("defalut_options.json");
+			std::ifstream di("recources/defalut_options.json");
 			di >> j;
 			saveToFile();
 		}

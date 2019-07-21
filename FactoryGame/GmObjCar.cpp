@@ -15,8 +15,8 @@ GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 
 	textureOffset = { -spaceSizePX,-spaceSizePX };
 
-	mainTexture.loadFromFile("car.png");
-	highlightTexture.loadFromFile("car_highlight.png");
+	mainTexture.loadFromFile("recources/car.png");
+	highlightTexture.loadFromFile("recources/car_highlight.png");
 
 	position.x = 5;
 	position.y = 1;
