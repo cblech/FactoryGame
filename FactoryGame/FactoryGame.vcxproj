@@ -141,6 +141,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDatabase.cpp" />
+    <ClCompile Include="Options.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -157,9 +158,11 @@
     </ClInclude>
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MapDatabase.h" />
+    <ClInclude Include="Options.h" />
     <ClInclude Include="Space.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="defalut_options.json" />
     <None Include="garage.json" />
     <None Include="shipyard.json" />
   </ItemGroup>

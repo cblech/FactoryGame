@@ -39,6 +39,9 @@
     <ClCompile Include="MapDatabase.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMap.h">
@@ -77,12 +80,18 @@
     <ClInclude Include="MapDatabase.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="garage.json">
       <Filter>Ressourcendateien</Filter>
     </None>
     <None Include="shipyard.json">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="defalut_options.json">
       <Filter>Ressourcendateien</Filter>
     </None>
   </ItemGroup>
