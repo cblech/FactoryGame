@@ -27,10 +27,13 @@ void run() {
 	//std::cout << (garage.initByFile("shipyard.json") ? "Korrekt\n":"Falsch\n");
 	//activeMap = &garage;
 
+	mdb.getMap(1)->carlos.solveSpaceDependencies();
+	mdb.getMap(1)->doory.solveSpaceDependencies();
 	GameMap * openedMap = mdb.getMap(2);
 
 	openedMap->carlos.solveSpaceDependencies();
 	openedMap->doory.solveSpaceDependencies();
+
 
 	sf::Clock deltaClock;
 	double delta = 0;
@@ -65,15 +68,15 @@ void run() {
 				if (event.key.code == sf::Keyboard::Z)
 					openedMap = mdb.getMap(2);
 					
-			case sf::Event::Resized:
-				//TODO for every map
-				//window.setView(sf::View({0.f,0.f}, { float(event.size.width), float(event.size.height) }));
-				//mapRenderTexture.create(event.size.width, event.size.height);
-				openedMap->setPixelRatio(float(event.size.width) / event.size.height);
-				
-				//openedMap->mapView.setViewport(sf::FloatRect(0.f, 0.f,2.f, 2.f));
+			//case sf::Event::Resized:
+			//	//TODO for every map
+			//	//window.setView(sf::View({0.f,0.f}, { float(event.size.width), float(event.size.height) }));
+			//	//mapRenderTexture.create(event.size.width, event.size.height);
+			//	openedMap->setPixelRatio(float(event.size.width) / event.size.height);
+			//	
+			//	//openedMap->mapView.setViewport(sf::FloatRect(0.f, 0.f,2.f, 2.f));
 
-				openedMap->zoomCamera(0);
+			//	openedMap->zoomCamera(0);
 				break;
 			default:
 				break;
