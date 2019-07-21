@@ -29,6 +29,9 @@ GameMap * MapDatabase::getMap(unsigned int id)
 		maps.resize(id + 1);
 	}
 	GameMap * newMap = new GameMap(id,drawnIn,pixelRatio);
+	newMap->zoomCamera(0);
+
+
 	switch (id)
 	{
 	case 1:
@@ -44,6 +47,10 @@ GameMap * MapDatabase::getMap(unsigned int id)
 		break;
 	}
 	maps[id] = newMap;
+
+	//Temp
+	newMap->doory.solveSpaceDependencies();
+	newMap->carlos.solveSpaceDependencies();
 
 	return newMap;
 }
