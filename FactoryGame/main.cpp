@@ -5,37 +5,34 @@
 #include "debug.h"
 #include "Animation.h"
 #include "MapDatabase.h" 
-#include "Options.h"
 
 
 /////////////////////////////////////////////////////////////
 
 
-int main() {
-	//Creating the options
-	Options options;
-
-	for (auto vm : sf::VideoMode::getFullscreenModes())
-	{
-		std::cout << "Res: " << vm.width << "x" << vm.height << std::endl;
-	}
-
+void run() {
 	//Creating the RenderWindow
-	auto r = options.getResolution();
-	sf::RenderWindow window(sf::VideoMode(r.resolution.x, r.resolution.y), "SFML works!", r.isFullscreen ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
-	window.setVerticalSyncEnabled(options.getVSync());
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!",sf::Style::Titlebar|sf::Style::Close);
 
 	//Creating the Map
 	sf::RenderTexture mapRenderTexture;
 	mapRenderTexture.create(window.getSize().x,window.getSize().y);
 	sf::Sprite mapSprite;
 
-	//Creating map database
+
+	//Creating maps
 	MapDatabase mdb(&mapRenderTexture, float(window.getSize().x) / window.getSize().y);
 
-	
-	GameMap * openedMap = mdb.getMap(1);
+	//GameMap garage(1,&mapRenderTexture,float(window.getSize().x)/window.getSize().y);
+	//std::cout << (garage.initByFile("shipyard.json") ? "Korrekt\n":"Falsch\n");
+	//activeMap = &garage;
 
+	mdb.getMap(1)->carlos.solveSpaceDependencies();
+	mdb.getMap(1)->doory.solveSpaceDependencies();
+	GameMap * openedMap = mdb.getMap(2);
+
+	openedMap->carlos.solveSpaceDependencies();
+	openedMap->doory.solveSpaceDependencies();
 
 
 	sf::Clock deltaClock;
@@ -124,5 +121,18 @@ int main() {
 		window.draw(mapSprite);
 		window.display();
 	}
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+int main()
+{
+
+	//std::cout << debug() << "Test Debug" << std::endl;
+	//std::cout << error() << "Test Error" << std::endl;
+	std::thread t(run);
+
+	t.join();
+
 	return 0;
 }

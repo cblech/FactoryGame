@@ -95,9 +95,9 @@ bool GameMap::initByFile(std::string filename)
 		for (int y = 0; y < size.y; y++)
 			for (int x = 0; x < size.x; x++)
 			{
-				Space * newSpace = new Space(x, y, j["walls"][y][x]);
+				Space * newSpace = new Space(x,y,j["walls"][y][x]);
 
-				newSpace->left = getSpaceByMapSpaceCoor(x - 1, y);
+				newSpace->left =getSpaceByMapSpaceCoor(x - 1, y);
 				newSpace->above = getSpaceByMapSpaceCoor(x, y - 1);
 
 				if (newSpace->left != nullptr)
