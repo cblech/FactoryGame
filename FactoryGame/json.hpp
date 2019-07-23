@@ -18954,7 +18954,7 @@ class basic_json
     JSON_DEPRECATED
     friend std::ostream& operator>>(const basic_json& j, std::ostream& o)
     {
-        return o << j;
+        return o << meta;
     }
 
     /// @}

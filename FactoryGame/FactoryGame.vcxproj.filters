@@ -54,6 +54,9 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Quelldateien\gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="Savegame.cpp">
+      <Filter>Quelldateien\misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="GmObjDoor.h">
       <Filter>Headerdateien\gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Savegame.h">
+      <Filter>Headerdateien\misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -90,6 +90,8 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\jonathan\Documents\Visual Studio 2017\Libs\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\jonathan\Documents\Visual Studio 2017\Libs\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -139,6 +141,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDatabase.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="Savegame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />
@@ -168,6 +171,7 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MapDatabase.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="Savegame.h" />
     <ClInclude Include="Space.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

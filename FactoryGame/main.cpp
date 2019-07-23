@@ -6,14 +6,45 @@
 #include "Animation.h"
 #include "MapDatabase.h" 
 #include "Options.h"
-
+#include "Savegame.h"
+#include <filesystem>
+#include "GlobalDefines.h"
 
 /////////////////////////////////////////////////////////////
-
+std::filesystem::path userDataPath;
 
 int main() {
+	//setting the user data path
+	{
+		char *pValue;
+		size_t len;
+		_dupenv_s(&pValue, &len, "APPDATA");
+		userDataPath = std::filesystem::path(pValue)/"FactoryGame";
+	}
+
+	//all savegames
+	auto ss = Savegame::getAllSavegames();
+
+
 	//Creating the options
 	Options options;
+	
+	//creating the savegame
+	//Savegame * svg = Savegame::newGame("New Ga37");
+	Savegame * svg = new Savegame(ss[0]["path"].get < std::string>());
+
+
+	//std::cout << userDataPath.root_path() << std::endl;
+
+	std::cout << "exists() = " << std::filesystem::exists(userDataPath) << "\n"
+		<< "root_name() = " << userDataPath.root_name() << "\n"
+		<< "root_path() = " << userDataPath.root_path() << "\n"
+		<< "relative_path() = " << userDataPath.relative_path() << "\n"
+		<< "parent_path() = " << userDataPath.parent_path() << "\n"
+		<< "filename() = " << userDataPath.filename() << "\n"
+		<< "stem() = " << userDataPath.stem() << "\n"
+		<< "extension() = " << userDataPath.extension() << "\n";
+
 
 	for (auto vm : sf::VideoMode::getFullscreenModes())
 	{
@@ -124,5 +155,7 @@ int main() {
 		window.draw(mapSprite);
 		window.display();
 	}
+
+	delete svg;
 	return 0;
 }
