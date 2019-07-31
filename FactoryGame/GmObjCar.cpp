@@ -4,7 +4,7 @@
 #include "Animation.h"
 #include <SFML\System.hpp>
 
-GmObjCar::GmObjCar(GameMap * map):GameObject(map)
+GmObjCar::GmObjCar()
 {
 	name = "Your Car";
 
@@ -15,17 +15,18 @@ GmObjCar::GmObjCar(GameMap * map):GameObject(map)
 
 	textureOffset = { -spaceSizePX,-spaceSizePX };
 
-	mainTexture.loadFromFile("recources/car.png");
-	highlightTexture.loadFromFile("recources/car_highlight.png");
-
-	position.x = 5;
-	position.y = 1;
+	mainTexture->loadFromFile("recources/car.png");
+	highlightTexture->loadFromFile("recources/car_highlight.png");
 
 	moveable = true;
 
-	mainSprite.setTexture(mainTexture);
-	highlightSprite.setTexture(highlightTexture);
-	solvePosition();
+	mainSprite.setTexture(*mainTexture);
+	highlightSprite.setTexture(*highlightTexture);
+
+
+	
+	position.x = 5;
+	position.y = 1;
 }
 
 
@@ -44,7 +45,7 @@ void GmObjCar::click(MapPixelCoor mousePosition)
 	GameObject::click(mousePosition);
 
 	std::cout << "Your Car: mouse click" << std::endl;
-	auto a = std::make_shared<Animation<sf::Vector2f>>([this](sf::Vector2f v) {this->mainSprite.setScale(v); }, sf::Vector2f (2,2), sf::Vector2f(1,1), .5,  Anim::Type::FastStart);
+	auto a = std::make_shared<Animation<sf::Vector2f>>([this](sf::Vector2f v) {this->mainSprite.setScale(v); }, sf::Vector2f(2, 2), sf::Vector2f(1, 1), .5, Anim::Type::FastStart);
 	Anim::ANIMATIONS.push_back(a);
 }
 
@@ -88,6 +89,30 @@ void GmObjCar::rightClick(MapPixelCoor mousePosition)
 {
 	GameObject::rightClick(mousePosition);
 	std::cout << "Your Car: mouse right click" << std::endl;
+}
 
+nlohmann::json GmObjCar::to_json() const
+{
+	json tj = GameObject::to_json();
+	return json{
+		{"gameobject", tj},
+		{"type","GmObjCar"}
+	};
+}
+
+void from_json(const nlohmann::json & j, GmObjCar & p)
+{
+	json tj = j["gameobject"];
+	from_json(tj, &p);
 
 }
+//
+//void my_to_json(nlohmann::json & j, const GmObjCar * p)
+//{
+//	json tj;
+//	to_json(tj, &p);
+//	j = json{
+//		{"gameobject", tj},
+//		{"type","GmObjCar"}
+//	};
+//}

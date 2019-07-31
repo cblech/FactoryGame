@@ -60,12 +60,12 @@ int main() {
 	sf::RenderTexture mapRenderTexture;
 	mapRenderTexture.create(window.getSize().x,window.getSize().y);
 	sf::Sprite mapSprite;
-
+	
 	//Creating map database
 	MapDatabase mdb(&mapRenderTexture, float(window.getSize().x) / window.getSize().y);
 
 	
-	GameMap * openedMap = mdb.getMap(1);
+	GameMap * openedMap = mdb.getMap(1, svg->getObjects());
 
 
 
@@ -98,9 +98,9 @@ int main() {
 				break;
 			case sf::Event::KeyPressed:
 				if (event.key.code == sf::Keyboard::U)
-					openedMap = mdb.getMap(1);
+					openedMap = mdb.getMap(1,svg->getObjects());
 				if (event.key.code == sf::Keyboard::Z)
-					openedMap = mdb.getMap(2);
+					openedMap = mdb.getMap(2, svg->getObjects());
 					
 			//case sf::Event::Resized:
 			//	//TODO for every map
@@ -122,6 +122,11 @@ int main() {
 		//Camera move tick
 		if (window.hasFocus())
 		{
+			//Save game
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+				svg->gatherAndSave(mdb.getLoadedMaps());
+
+			//move camera by keyboard
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				openedMap->moveCamera(Direction::up, delta);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))

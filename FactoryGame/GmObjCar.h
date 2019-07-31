@@ -7,7 +7,7 @@ class GameMap;
 class GmObjCar: public GameObject
 {
 public:
-	GmObjCar(GameMap * map);
+	GmObjCar();
 	~GmObjCar();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -23,4 +23,8 @@ public:
 	void holdEnd(MapPixelCoor mousePosition)override;
 
 	void rightClick(MapPixelCoor mousePosition) override;
+
+	nlohmann::json to_json() const override;
 };
+
+void from_json(const nlohmann::json& j, GmObjCar& p);

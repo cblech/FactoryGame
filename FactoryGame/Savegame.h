@@ -1,6 +1,7 @@
 #pragma once
 #include "json.hpp"
 #include <filesystem>
+#include "GameMap.h"
 
 class Savegame
 {
@@ -26,16 +27,21 @@ public:
 	
 	//modified
 	std::string getModifiedTime();
-	void setModifiedTime(std::string time);
+	void setModifiedTime(std::string time);	
 
+	//objects
+	nlohmann::json getObjects();
+
+	void gatherAndSave(std::vector<GameMap *> loadedMaps);
+	bool saveToFile();
 
 private:
-	nlohmann::json meta;
+	nlohmann::json jmeta;
+	nlohmann::json jobjects;
 
 	int fileVersion = 0;
 	std::filesystem::path folderPath;
 
 	static std::string generateFolderName(std::string name);
-	bool saveToFile();
 };
 

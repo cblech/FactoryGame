@@ -7,9 +7,11 @@
 
 using namespace nlohmann;
 
-GameMap::GameMap(int id, sf::RenderTarget * drawnIn, float pixelRatio) :id(id),carlos(this),doory(this),drawnIn(drawnIn),pixelRatio(pixelRatio)
+GameMap::GameMap(int id, sf::RenderTarget * drawnIn, float pixelRatio) :id(id),drawnIn(drawnIn),pixelRatio(pixelRatio)
 {
-	mapView.reset({ 0,0,1280,720 });
+	//mapView.reset({ 0,0,1280,720 });
+	//objects.push_back(&doory);
+	//objects.push_back(&carlos);
 
 
 }
@@ -25,6 +27,11 @@ GameMap::~GameMap()
 	}
 }
 
+int GameMap::getID()
+{
+	return id;
+}
+
 std::string GameMap::getName()
 {
 	return name;
@@ -35,12 +42,21 @@ std::string GameMap::getDescription()
 	return description;
 }
 
+std::vector<GameObject*> GameMap::getObjects()
+{
+	return objects;
+}
+
 void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	//draw the Background
 	target.draw(backgroundSprite,states);
-	target.draw(doory, states);
-	target.draw(carlos, states);
+	for (auto * o : objects)
+	{
+		target.draw(*o, states);
+	}
+	//target.draw(doory, states);
+	//target.draw(carlos, states);
 }
 
 MapPixelCoor GameMap::ScreenPixelCoorTOMapPixelCoor(ScreenPixelCoor spc)
@@ -68,7 +84,7 @@ void GameMap::setDrawnIn(sf::RenderTarget * rt)
 	drawnIn = rt;
 }
 
-bool GameMap::initByFile(std::string filename)
+bool GameMap::initByFile(std::string filename, nlohmann::json objs)
 {
 	json j;
 	try {
@@ -118,6 +134,23 @@ bool GameMap::initByFile(std::string filename)
 	else
 		return false;
 
+	//createObjects
+
+	for (json o : objs)
+	{
+		GameObject * newObject = nullptr;
+		const std::string oType = o["type"].get<std::string>();
+		if (oType == "GmObjCar")
+		{
+			GmObjCar nO = o;
+			nO.setGameMap(this);
+			newObject = new GmObjCar(nO);
+			newObject->solvePosition();
+			newObject->solveSpaceDependencies();
+			objects.push_back(newObject);
+		}
+		
+	}
 
 	return true;
 }
@@ -356,5 +389,13 @@ inline Space * GameMap::getSpaceByMapSpaceCoor(int x, int y) {
 inline Space * GameMap::getSpaceByMapSpaceCoor(MapSpaceCoor pos)
 {
 	return getSpaceByMapSpaceCoor(pos.x,pos.y);
+}
+
+void GameMap::solveObjectsMap()
+{
+	for (auto o : objects) 
+	{
+		o->setGameMap(this);
+	}
 }
 

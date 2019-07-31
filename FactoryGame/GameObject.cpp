@@ -10,7 +10,19 @@
 
 GameObject::GameObject(GameMap * map) :containingMap(map), name("Generic GameObject")
 {
+	init();
+}
+
+GameObject::GameObject() : containingMap(nullptr), name("Generic GameObject")
+{
+	init();
+}
+
+void GameObject::init()
+{
 	highlightSprite.setColor(COLOR_TRANSPARENT);
+	mainTexture = std::make_shared<sf::Texture>();
+	highlightTexture = std::make_shared<sf::Texture>();
 }
 
 GameObject::~GameObject()
@@ -21,6 +33,11 @@ void GameObject::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(highlightSprite, states);
 	target.draw(mainSprite, states);
+}
+
+void GameObject::setGameMap(GameMap * map)
+{
+	containingMap = map;
 }
 
 void GameObject::click(MapPixelCoor mousePosition)
@@ -37,13 +54,13 @@ void GameObject::clickEnd(MapPixelCoor mousePosition)
 
 void GameObject::hoverStart(MapPixelCoor mousePosition)
 {
-	if(!carried)
+	if (!carried)
 		highlightSprite.setColor(COLOR_HL_HOVER);
 }
 
 void GameObject::hoverEnd(MapPixelCoor mousePosition)
 {
-	if(!carried)
+	if (!carried)
 		highlightSprite.setColor(COLOR_TRANSPARENT);
 }
 
@@ -52,7 +69,7 @@ void GameObject::holdStart(MapPixelCoor mousePosition)
 	if (isMoveable())
 	{
 		carried = true;
-		moveingOffset = MapPixelCoor(mainSprite.getPosition()-textureOffset) - mousePosition;
+		moveingOffset = MapPixelCoor(mainSprite.getPosition() - textureOffset) - mousePosition;
 		containingMap->carriedObject = this;
 		mainSprite.setColor(COLOR_TX_CARRY);
 	}
@@ -85,26 +102,37 @@ void GameObject::holdEnd(MapPixelCoor mousePosition)
 
 void GameObject::rightClick(MapPixelCoor mousePosition)
 {
-	
+
+}
+
+nlohmann::json GameObject::to_json() const
+{
+
+	return json
+	{
+	{"name", name},
+	{"position", position},
+	{"pointing", pointing}
+	};
 }
 
 void GameObject::carrieTick(MapPixelCoor mousePosition)
 {
-	
+
 	MapSpaceCoor carriedOverSpace = containingMap->MapPixelCoorTOMapSpaceCoor((mousePosition + moveingOffset) + MapPixelCoor(spaceSizePX / 2, spaceSizePX / 2));
 
 	//Check if placeable
-	if (containingMap->checkForFreeSpaces(carriedOverSpace, carriedOverSpace + size,this))
+	if (containingMap->checkForFreeSpaces(carriedOverSpace, carriedOverSpace + size, this))
 	{
 		highlightSprite.setColor(COLOR_HL_POSITIVE);
-		mainSprite.setPosition(sf::Vector2f(carriedOverSpace*spaceSizePX)+textureOffset);
-		highlightSprite.setPosition(sf::Vector2f(carriedOverSpace*spaceSizePX)+textureOffset);
+		mainSprite.setPosition(sf::Vector2f(carriedOverSpace*spaceSizePX) + textureOffset);
+		highlightSprite.setPosition(sf::Vector2f(carriedOverSpace*spaceSizePX) + textureOffset);
 	}
 	else
 	{
 		highlightSprite.setColor(COLOR_HL_NEGATIVE);
-		mainSprite.setPosition(sf::Vector2f(mousePosition + moveingOffset)+textureOffset);
-		highlightSprite.setPosition(sf::Vector2f(mousePosition + moveingOffset)+textureOffset);
+		mainSprite.setPosition(sf::Vector2f(mousePosition + moveingOffset) + textureOffset);
+		highlightSprite.setPosition(sf::Vector2f(mousePosition + moveingOffset) + textureOffset);
 	}
 }
 
@@ -162,42 +190,68 @@ void GameObject::solvePosition(bool updateRotation)
 			mainSprite.setRotation(0.f);
 			highlightSprite.setRotation(0.f);
 		}
-		mainSprite.setPosition(containingMap->MapSpaceCoorTOMapPixelCoor(position)+textureOffset);
+		mainSprite.setPosition(containingMap->MapSpaceCoorTOMapPixelCoor(position) + textureOffset);
 		highlightSprite.setPosition(sf::Vector2f(position*spaceSizePX) + textureOffset);
 		break;
-	
-	/*case Direction::down:
-		if (updateRotation)
-		{
-			mainSprite.setRotation(180.f);
-			highlightSprite.setRotation(180.f);
-		}
-		mainSprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
-		highlightSprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
-		break;
-	case Direction::left:
-		if (updateRotation)
-		{
-			mainSprite.setRotation(270.f);
-			highlightSprite.setRotation(270.f);
-		}
-		mainSprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
-		highlightSprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
-		break;
-	case Direction::right:
-		if (updateRotation)
-		{
-			mainSprite.setRotation(90.f);
-			highlightSprite.setRotation(90.f);
-		}
-		mainSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
-		highlightSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
-		break;*/
+
+		/*case Direction::down:
+			if (updateRotation)
+			{
+				mainSprite.setRotation(180.f);
+				highlightSprite.setRotation(180.f);
+			}
+			mainSprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
+			highlightSprite.setPosition((position.x*spaceSizePX) + (size.x*spaceSizePX), (position.y*spaceSizePX) + (size.y*spaceSizePX));
+			break;
+		case Direction::left:
+			if (updateRotation)
+			{
+				mainSprite.setRotation(270.f);
+				highlightSprite.setRotation(270.f);
+			}
+			mainSprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
+			highlightSprite.setPosition(position.x*spaceSizePX, (position.y*spaceSizePX) + (size.x*spaceSizePX));
+			break;
+		case Direction::right:
+			if (updateRotation)
+			{
+				mainSprite.setRotation(90.f);
+				highlightSprite.setRotation(90.f);
+			}
+			mainSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
+			highlightSprite.setPosition((position.x*spaceSizePX) + (size.y*spaceSizePX), position.y*spaceSizePX);
+			break;*/
 	}
 
 }
 
+
 Direction operator+(const Direction & left, const Direction & right)
 {
 	return Direction((int(left) + int(right)) % 4);
+}
+
+void from_json(const nlohmann::json & j, GameObject * p)
+{
+	j.at("name").get_to(p->name);
+	j.at("position").get_to(p->position);
+	j.at("pointing").get_to(p->pointing);
+}
+
+void to_json(nlohmann::json & j, const GameObject & p)
+{
+	j = p.to_json();
+}
+
+
+
+
+void from_json(const nlohmann::json & j, Direction & p)
+{
+	p = Direction(j.get<int>());
+}
+
+void to_json(nlohmann::json & j, const Direction & p)
+{
+	j = int(p);
 }

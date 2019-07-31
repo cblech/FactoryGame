@@ -25,6 +25,12 @@
     <Filter Include="Quelldateien\gameplay">
       <UniqueIdentifier>{7bddfa52-d728-4324-a08f-30da05ef9e6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\gameplay\gameobjects">
+      <UniqueIdentifier>{c7a02c8e-f01f-474c-8629-cac6b15f8c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\gameplay\gameobjects">
+      <UniqueIdentifier>{f82417f2-8da2-45a2-923d-abbc08482c6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,17 +51,17 @@
     <ClCompile Include="MapDatabase.cpp">
       <Filter>Quelldateien\gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="GmObjDoor.cpp">
-      <Filter>Quelldateien\gameplay</Filter>
-    </ClCompile>
-    <ClCompile Include="GmObjCar.cpp">
-      <Filter>Quelldateien\gameplay</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Quelldateien\gameplay</Filter>
     </ClCompile>
     <ClCompile Include="Savegame.cpp">
       <Filter>Quelldateien\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GmObjCar.cpp">
+      <Filter>Quelldateien\gameplay\gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GmObjDoor.cpp">
+      <Filter>Quelldateien\gameplay\gameobjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,14 +131,14 @@
     <ClInclude Include="GameObject.h">
       <Filter>Headerdateien\gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="GmObjCar.h">
-      <Filter>Headerdateien\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="GmObjDoor.h">
-      <Filter>Headerdateien\gameplay</Filter>
-    </ClInclude>
     <ClInclude Include="Savegame.h">
       <Filter>Headerdateien\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GmObjCar.h">
+      <Filter>Headerdateien\gameplay\gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GmObjDoor.h">
+      <Filter>Headerdateien\gameplay\gameobjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

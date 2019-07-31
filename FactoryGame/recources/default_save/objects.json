@@ -1,0 +1,16 @@
+{
+  "garage": {
+    "type": "GmObjCar",
+    "gameobject": {
+      "name": "Your Car",
+      "movable": true
+    }
+  },
+  "shipyard": {
+    "type": "GmObjCar",
+    "gameobject": {
+      "name": "Your Car",
+      "movable": true
+    }
+  }
+}
