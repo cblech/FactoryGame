@@ -34,16 +34,15 @@ int main() {
 	Savegame * svg = new Savegame(ss[0]["path"].get < std::string>());
 
 
-	//std::cout << userDataPath.root_path() << std::endl;
 
-	std::cout << "exists() = " << std::filesystem::exists(userDataPath) << "\n"
-		<< "root_name() = " << userDataPath.root_name() << "\n"
-		<< "root_path() = " << userDataPath.root_path() << "\n"
-		<< "relative_path() = " << userDataPath.relative_path() << "\n"
-		<< "parent_path() = " << userDataPath.parent_path() << "\n"
-		<< "filename() = " << userDataPath.filename() << "\n"
-		<< "stem() = " << userDataPath.stem() << "\n"
-		<< "extension() = " << userDataPath.extension() << "\n";
+	//std::cout << "exists() = " << std::filesystem::exists(userDataPath) << "\n"
+	//	<< "root_name() = " << userDataPath.root_name() << "\n"
+	//	<< "root_path() = " << userDataPath.root_path() << "\n"
+	//	<< "relative_path() = " << userDataPath.relative_path() << "\n"
+	//	<< "parent_path() = " << userDataPath.parent_path() << "\n"
+	//	<< "filename() = " << userDataPath.filename() << "\n"
+	//	<< "stem() = " << userDataPath.stem() << "\n"
+	//	<< "extension() = " << userDataPath.extension() << "\n";
 
 
 	for (auto vm : sf::VideoMode::getFullscreenModes())
