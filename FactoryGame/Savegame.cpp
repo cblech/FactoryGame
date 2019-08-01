@@ -59,6 +59,19 @@ bool Savegame::saveToFile()
 {
 	const bool fancyjson = true;//makes the json in the file more human readable
 
+	{
+		time_t rawtime;
+		struct tm timeinfo;
+		char buffer[80];
+
+		time(&rawtime);
+		localtime_s(&timeinfo, &rawtime);
+
+		strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", &timeinfo);
+		std::string str(buffer);
+		setModifiedTime(str);
+	}
+
 	//save jsons to file
 	try {
 		std::ofstream ofsm(folderPath / "meta.json");

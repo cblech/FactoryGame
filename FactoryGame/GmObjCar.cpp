@@ -8,8 +8,6 @@ GmObjCar::GmObjCar()
 {
 	name = "Your Car";
 
-	pointing = Direction::up;
-
 	size.x = 4;
 	size.y = 7;
 
@@ -23,10 +21,6 @@ GmObjCar::GmObjCar()
 	mainSprite.setTexture(*mainTexture);
 	highlightSprite.setTexture(*highlightTexture);
 
-
-	
-	position.x = 5;
-	position.y = 1;
 }
 
 

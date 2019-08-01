@@ -5,6 +5,12 @@
   "size": [ 10, 10 ],
   "background": "recources/garageBkg.png",
   "type": "garage",
+  "camera": {
+	"maxzoom": 39,
+	"minzoom": 21,
+	"zoom": 30,
+	"center": [344,320]
+  },
   "walls": [
     [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
     [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
@@ -16,5 +22,18 @@
     [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
     [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
     [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
-  ]
+  ],
+  "objects":[
+        {
+            "gameobject": {
+                "name": "Your Car",
+                "pointing": 0,
+                "position": [
+                    5,
+                    1
+                ]
+            },
+            "type": "GmObjCar"
+        }
+    ]
 }

@@ -29,8 +29,6 @@ GameMap * MapDatabase::getMap(unsigned int id, nlohmann::json savedObjects)
 		maps.resize(id + 1);
 	}
 	GameMap * newMap = new GameMap(id, drawnIn, pixelRatio);
-	newMap->zoomCamera(0);
-
 
 	switch (id)
 	{
@@ -46,6 +44,8 @@ GameMap * MapDatabase::getMap(unsigned int id, nlohmann::json savedObjects)
 		return nullptr;
 		break;
 	}
+
+	newMap->zoomCamera(0);
 	maps[id] = newMap;
 
 	//Temp

@@ -103,6 +103,12 @@ bool GameMap::initByFile(std::string filename, nlohmann::json objs)
 		size.x = j["size"][0];
 		size.y = j["size"][1];
 
+		mapView.setCenter(j["camera"]["center"]);
+		zoomLevel = j["camera"]["zoom"];
+		maxZoomLevel = j["camera"]["maxzoom"];
+		minZoomLevel = j["camera"]["minzoom"];
+
+
 		if (!backgroundTextrue.loadFromFile(j["background"]))
 			return false;
 
@@ -135,6 +141,11 @@ bool GameMap::initByFile(std::string filename, nlohmann::json objs)
 		return false;
 
 	//createObjects
+
+	if (objs.is_null())
+	{
+		objs = j["objects"];
+	}
 
 	for (json o : objs)
 	{
@@ -317,7 +328,7 @@ void GameMap::moveCamera(Direction dir, double delta)
 
 void GameMap::moveCamera(MapPixelCoor offset)
 {
-	mapView.move(offset);
+	mapView.setCenter(clamp(mapView.getCenter() + offset, { 0,0 }, {MapSpaceCoorTOMapPixelCoor(size)}));
 }
 
 void GameMap::zoomCamera(double delta)

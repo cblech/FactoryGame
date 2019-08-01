@@ -30,7 +30,7 @@ int main() {
 	Options options;
 	
 	//creating the savegame
-	//Savegame * svg = Savegame::newGame("New Ga37");
+	//Savegame * svg = Savegame::newGame("AktTesty");
 	Savegame * svg = new Savegame(ss[0]["path"].get < std::string>());
 
 

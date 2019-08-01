@@ -82,10 +82,10 @@ private:
 	//Main Map Camera
 	
 	float pixelRatio;
-	int zoomLevel = 27;
+	int zoomLevel;
 	int zoomSpeed = 3;
-	int maxZoomLevel = 100;
-	int minZoomLevel = 21;
+	int maxZoomLevel;
+	int minZoomLevel;
 
 	bool cameraIsDraged = false;
 	MapPixelCoor mousePositionWhileDragged;
