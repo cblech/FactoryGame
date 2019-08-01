@@ -138,6 +138,8 @@ json Savegame::getAllSavegames()
 
 	json retVal;
 	int count = 0;
+	if (!std::filesystem::exists(userDataPath / "saves"))
+		std::filesystem::create_directories(userDataPath / "saves");
 	for (auto& p : std::filesystem::directory_iterator(userDataPath / "saves"))
 	{
 		try {
