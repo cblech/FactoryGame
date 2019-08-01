@@ -101,6 +101,9 @@ int main() {
 					openedMap = mdb.getMap(1,svg->getObjects());
 				if (event.key.code == sf::Keyboard::Z)
 					openedMap = mdb.getMap(2, svg->getObjects());
+
+				if (event.key.code == sf::Keyboard::M)//save game
+					svg->gatherAndSave(mdb.getLoadedMaps());
 					
 			//case sf::Event::Resized:
 			//	//TODO for every map
@@ -122,10 +125,6 @@ int main() {
 		//Camera move tick
 		if (window.hasFocus())
 		{
-			//Save game
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-				svg->gatherAndSave(mdb.getLoadedMaps());
-
 			//move camera by keyboard
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				openedMap->moveCamera(Direction::up, delta);
