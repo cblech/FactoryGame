@@ -8,6 +8,7 @@
 #include "Options.h"
 #include "Savegame.h"
 #include <filesystem>
+#include "GuiWindow.h"
 #include "GlobalDefines.h"
 
 /////////////////////////////////////////////////////////////
@@ -66,7 +67,10 @@ int main() {
 	
 	GameMap * openedMap = mdb.getMap(1, svg->getObjects());
 
-
+	//temp
+	GuiWindow guiw;
+	guiw.setSize({ 200.f, 50.f });
+	guiw.setPosition({ 100.f,100.f });
 
 	sf::Clock deltaClock;
 	double delta = 0;
@@ -156,6 +160,7 @@ int main() {
 		//Rendering Window
 		window.clear(sf::Color(0, 0, 0, 255));
 		window.draw(mapSprite);
+		window.draw(guiw);
 		window.display();
 	}
 

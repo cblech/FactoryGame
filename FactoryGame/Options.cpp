@@ -9,7 +9,7 @@ using namespace nlohmann;
 Options::Options()
 {
 	try {
-		throw 0;
+		//throw 0;
 		std::ifstream i("options.json");
 		i >> j;
 	}
