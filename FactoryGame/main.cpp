@@ -10,6 +10,8 @@
 #include <filesystem>
 #include "GuiWindow.h"
 #include "GlobalDefines.h"
+#include "GuiRectangle.h"
+
 
 /////////////////////////////////////////////////////////////
 std::filesystem::path userDataPath;
@@ -26,6 +28,8 @@ int main() {
 	//all savegames
 	auto ss = Savegame::getAllSavegames();
 
+	GuiContainer gc;
+	gc.addElement(std::make_shared<GuiContainer>());
 
 	//Creating the options
 	Options options;
@@ -69,8 +73,25 @@ int main() {
 
 	//temp
 	GuiWindow guiw;
-	guiw.setSize({ 200.f, 50.f });
+	auto cRight = std::make_shared<GuiContainer>();
+
+	guiw.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{200.f,40.f},sf::Color::Red));
+
+
+	guiw.addElement(GUI_SPACE(5.f));
+	guiw.addElement(cRight);
+	
+	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{150.f,80.f},sf::Color::Green));
+	cRight->addElement(GUI_SPACE(5.f));
+	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{150.f,40.f},sf::Color::Blue));
+
+
+
+
 	guiw.setPosition({ 100.f,100.f });
+	guiw.setHorizontal();
+
+	//guiw.setRotation(70.f);
 
 	sf::Clock deltaClock;
 	double delta = 0;
@@ -128,6 +149,10 @@ int main() {
 		//Camera move tick
 		if (window.hasFocus())
 		{
+			//tmp joystick
+			//openedMap->moveCamera({ sf::Joystick::getAxisPosition(0,sf::Joystick::Axis::X)*0.01f ,sf::Joystick::getAxisPosition(0,sf::Joystick::Axis::Y)*0.01f });
+
+
 			//move camera by keyboard
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				openedMap->moveCamera(Direction::up, delta);

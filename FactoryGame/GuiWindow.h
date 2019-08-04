@@ -1,17 +1,24 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-class GuiWindow : public sf::Drawable, public sf::Transformable
+#include "GuiContainer.h"
+
+class GuiWindow : public GuiContainer, public sf::Transformable
 {
 public:
 	GuiWindow();
 	~GuiWindow();
 
-	void setSize(sf::Vector2f size);
 	sf::Vector2f getSize();
+
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+
+protected:
+	virtual void solveSize();
+
 private:
 	sf::RectangleShape background;
+	GuiContainer container;
 };
 

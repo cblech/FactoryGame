@@ -138,6 +138,10 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GmObjCar.cpp" />
     <ClCompile Include="GmObjDoor.cpp" />
+    <ClCompile Include="GuiContainer.cpp" />
+    <ClCompile Include="GuiElement.cpp" />
+    <ClCompile Include="GuiRectangle.cpp" />
+    <ClCompile Include="GuiWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDatabase.cpp" />
     <ClCompile Include="Options.cpp" />
@@ -168,6 +172,10 @@
     <ClInclude Include="GlobalDefines.h" />
     <ClInclude Include="GmObjCar.h" />
     <ClInclude Include="GmObjDoor.h" />
+    <ClInclude Include="GuiContainer.h" />
+    <ClInclude Include="GuiElement.h" />
+    <ClInclude Include="GuiRectangle.h" />
+    <ClInclude Include="GuiWindow.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MapDatabase.h" />
     <ClInclude Include="Options.h" />
