@@ -18,7 +18,6 @@ public:
 	void setVertical();
 	void setHorizontal();
 
-protected:
 	virtual void solveSize();
 
 private:

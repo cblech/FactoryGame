@@ -76,10 +76,10 @@
       <Filter>Quelldateien\gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiElement.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiRectangle.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,10 +165,10 @@
       <Filter>Headerdateien\gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiElement.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiRectangle.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
