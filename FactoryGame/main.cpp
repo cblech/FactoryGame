@@ -80,6 +80,7 @@ int main() {
 
 	guiw.addElement(GUI_SPACE(5.f));
 	guiw.addElement(cRight);
+	guiw.setHorizontal();
 	
 	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{150.f,80.f},sf::Color::Green));
 	cRight->addElement(GUI_SPACE(5.f));
@@ -89,7 +90,6 @@ int main() {
 
 
 	guiw.setPosition({ 100.f,100.f });
-	guiw.setHorizontal();
 
 	//guiw.setRotation(70.f);
 

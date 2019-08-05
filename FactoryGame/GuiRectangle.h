@@ -1,7 +1,6 @@
 #pragma once
-#include <SFML/System.hpp>
 #include "GuiElement.h"
-class GuiRectangle :	public GuiElement
+class GuiRectangle :public GuiElement
 {
 public:
 	GuiRectangle(sf::Vector2f size,sf::Color color);

@@ -4,7 +4,7 @@
 
 
 
-GuiRectangle::GuiRectangle(sf::Vector2f size, sf::Color color) 
+GuiRectangle::GuiRectangle(sf::Vector2f size, sf::Color color)
 {
 	this->size = size;
 	rec.setSize(size);
