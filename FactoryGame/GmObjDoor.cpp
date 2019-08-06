@@ -1,5 +1,5 @@
 #include "GmObjDoor.h"
-#include "GlobalDefines.h"
+#include "Global.h"
 #include <iostream>
 #include <SFML\System.hpp>
 

@@ -2,7 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include <vector>
 #include "GmObjCar.h"
-#include "GlobalDefines.h"
+#include "Global.h"
 #include "Space.h"
 #include "GmObjDoor.h"
 

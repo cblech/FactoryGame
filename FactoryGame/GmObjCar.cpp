@@ -1,5 +1,5 @@
 #include "GmObjCar.h"
-#include "GlobalDefines.h"
+#include "Global.h"
 #include <iostream>
 #include "Animation.h"
 #include <SFML\System.hpp>

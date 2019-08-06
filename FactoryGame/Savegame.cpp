@@ -2,9 +2,8 @@
 #include <fstream>
 #include <ctime>
 #include <string>
-#include "GlobalDefines.h"
 #include "Coords.h"
-
+#include "Global.h"
 
 using namespace nlohmann;
 
@@ -91,12 +90,12 @@ Savegame * Savegame::newGame(const std::string & name)
 {
 	assert(checkNewGameName(name)); //SaveGame already exists
 
-	std::filesystem::path saveTo = userDataPath / "saves" / generateFolderName(name);
+	std::filesystem::path saveTo = global.userDataPath / "saves" / generateFolderName(name);
 	//if (!std::filesystem::exists(saveTo))
 	std::filesystem::create_directories(saveTo);
-	std::filesystem::copy("recources/default_save", userDataPath / "saves" / generateFolderName(name), std::filesystem::copy_options::recursive);
+	std::filesystem::copy("recources/default_save", global.userDataPath / "saves" / generateFolderName(name), std::filesystem::copy_options::recursive);
 
-	auto * retVal = new Savegame(userDataPath / "saves" / generateFolderName(name));
+	auto * retVal = new Savegame(global.userDataPath / "saves" / generateFolderName(name));
 	retVal->setSaveName(name);
 	retVal->setFileVersion(1);
 	{
@@ -118,7 +117,7 @@ Savegame * Savegame::newGame(const std::string & name)
 
 bool Savegame::checkNewGameName(const std::string & name)
 {
-	return !std::filesystem::exists(userDataPath / "saves" / generateFolderName(name));
+	return !std::filesystem::exists(global.userDataPath / "saves" / generateFolderName(name));
 }
 
 //void to_json(nlohmann::json& j, const MapSpaceCoor& p) {
@@ -138,9 +137,9 @@ json Savegame::getAllSavegames()
 
 	json retVal;
 	int count = 0;
-	if (!std::filesystem::exists(userDataPath / "saves"))
-		std::filesystem::create_directories(userDataPath / "saves");
-	for (auto& p : std::filesystem::directory_iterator(userDataPath / "saves"))
+	if (!std::filesystem::exists(global.userDataPath / "saves"))
+		std::filesystem::create_directories(global.userDataPath / "saves");
+	for (auto& p : std::filesystem::directory_iterator(global.userDataPath / "saves"))
 	{
 		try {
 			json jsPart;

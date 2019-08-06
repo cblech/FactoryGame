@@ -9,34 +9,26 @@
 #include "Savegame.h"
 #include <filesystem>
 #include "GuiWindow.h"
-#include "GlobalDefines.h"
 #include "GuiRectangle.h"
+#include "Global.h"
 
-
+Global global;
 /////////////////////////////////////////////////////////////
-std::filesystem::path userDataPath;
 
 int main() {
 	//setting the user data path
-	{
-		char *pValue;
-		size_t len;
-		_dupenv_s(&pValue, &len, "APPDATA");
-		userDataPath = std::filesystem::path(pValue)/"FactoryGame";
-	}
 
+	
 	//all savegames
 	auto ss = Savegame::getAllSavegames();
 
-	GuiContainer gc;
-	gc.addElement(std::make_shared<GuiContainer>());
 
 	//Creating the options
-	Options options;
-	
+	//Options options;
+
 	//creating the savegame
 	//Savegame * svg = Savegame::newGame("AktTesty");
-	Savegame * svg = new Savegame(ss[0]["path"].get < std::string>());
+	Savegame * svg = new Savegame(ss[0]["path"].get<std::string>());
 
 
 
@@ -56,39 +48,35 @@ int main() {
 	}
 
 	//Creating the RenderWindow
-	auto r = options.getResolution();
+	auto r = global.options.getResolution();
 	sf::RenderWindow window(sf::VideoMode(r.resolution.x, r.resolution.y), "SFML works!", r.isFullscreen ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
-	window.setVerticalSyncEnabled(options.getVSync());
+	window.setVerticalSyncEnabled(global.options.getVSync());
 
 	//Creating the Map
 	sf::RenderTexture mapRenderTexture;
-	mapRenderTexture.create(window.getSize().x,window.getSize().y);
+	mapRenderTexture.create(window.getSize().x, window.getSize().y);
 	sf::Sprite mapSprite;
-	
+
 	//Creating map database
 	MapDatabase mdb(&mapRenderTexture, float(window.getSize().x) / window.getSize().y);
 
-	
-	GameMap * openedMap = mdb.getMap(1, svg->getObjects());
+
+	global.openedMap = mdb.getMap(1, svg->getObjects());
 
 	//temp
 	GuiWindow guiw;
 	auto cRight = std::make_shared<GuiContainer>();
 
-	guiw.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{200.f,40.f},sf::Color::Red));
-
-
+	guiw.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 200.f,40.f }, sf::Color::Red));
 	guiw.addElement(GUI_SPACE(5.f));
 	guiw.addElement(cRight);
-	guiw.setHorizontal();
-	
-	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{150.f,80.f},sf::Color::Green));
+
+	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 150.f,80.f }, sf::Color::Green));
 	cRight->addElement(GUI_SPACE(5.f));
-	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{150.f,40.f},sf::Color::Blue));
+	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 150.f,40.f }, sf::Color::Blue));
 
 
-
-
+	guiw.setHorizontal();
 	guiw.setPosition({ 100.f,100.f });
 
 	//guiw.setRotation(70.f);
@@ -112,39 +100,39 @@ int main() {
 				window.close();
 				break;
 			case sf::Event::MouseButtonPressed:
-				openedMap->mouseClickEvent(event.mouseButton);
+				global.openedMap->mouseClickEvent(event.mouseButton);
 				break;
 			case sf::Event::MouseButtonReleased:
-				openedMap->mouseReleaseEvent(event.mouseButton);
+				global.openedMap->mouseReleaseEvent(event.mouseButton);
 				break;
 			case sf::Event::MouseWheelMoved:
-				openedMap->zoomCamera(event.mouseWheel.delta);
+				global.openedMap->zoomCamera(event.mouseWheel.delta);
 				break;
 			case sf::Event::KeyPressed:
 				if (event.key.code == sf::Keyboard::U)
-					openedMap = mdb.getMap(1,svg->getObjects());
+					global.openedMap = mdb.getMap(1, svg->getObjects());
 				if (event.key.code == sf::Keyboard::Z)
-					openedMap = mdb.getMap(2, svg->getObjects());
+					global.openedMap = mdb.getMap(2, svg->getObjects());
 
 				if (event.key.code == sf::Keyboard::M)//save game
 					svg->gatherAndSave(mdb.getLoadedMaps());
-					
-			//case sf::Event::Resized:
-			//	//TODO for every map
-			//	//window.setView(sf::View({0.f,0.f}, { float(event.size.width), float(event.size.height) }));
-			//	//mapRenderTexture.create(event.size.width, event.size.height);
-			//	openedMap->setPixelRatio(float(event.size.width) / event.size.height);
-			//	
-			//	//openedMap->mapView.setViewport(sf::FloatRect(0.f, 0.f,2.f, 2.f));
 
-			//	openedMap->zoomCamera(0);
+				//case sf::Event::Resized:
+				//	//TODO for every map
+				//	//window.setView(sf::View({0.f,0.f}, { float(event.size.width), float(event.size.height) }));
+				//	//mapRenderTexture.create(event.size.width, event.size.height);
+				//	openedMap->setPixelRatio(float(event.size.width) / event.size.height);
+				//	
+				//	//openedMap->mapView.setViewport(sf::FloatRect(0.f, 0.f,2.f, 2.f));
+
+				//	openedMap->zoomCamera(0);
 				break;
 			default:
 				break;
 			}
 		}
 		//Mouse Tick
-		openedMap->checkMousePosition(sf::Mouse::getPosition(window));
+		global.openedMap->checkMousePosition(sf::Mouse::getPosition(window));
 
 		//Camera move tick
 		if (window.hasFocus())
@@ -155,13 +143,13 @@ int main() {
 
 			//move camera by keyboard
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-				openedMap->moveCamera(Direction::up, delta);
+				global.openedMap->moveCamera(Direction::up, delta);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-				openedMap->moveCamera(Direction::left, delta);
+				global.openedMap->moveCamera(Direction::left, delta);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-				openedMap->moveCamera(Direction::down, delta);
+				global.openedMap->moveCamera(Direction::down, delta);
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-				openedMap->moveCamera(Direction::right, delta);
+				global.openedMap->moveCamera(Direction::right, delta);
 		}
 
 		//Step forward all Animations
@@ -176,9 +164,9 @@ int main() {
 		}
 
 		//Rendering Map to mapRenderTexture
-		mapRenderTexture.setView(openedMap->getMapView());
+		mapRenderTexture.setView(global.openedMap->getMapView());
 		mapRenderTexture.clear(sf::Color(0, 0, 0, 255));
-		mapRenderTexture.draw(*openedMap);
+		mapRenderTexture.draw(*global.openedMap);
 		mapRenderTexture.display();
 		mapSprite.setTexture(mapRenderTexture.getTexture());
 
