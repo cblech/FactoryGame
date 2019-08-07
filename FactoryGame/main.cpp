@@ -65,6 +65,7 @@ int main() {
 
 	//temp
 	GuiWindow guiw(false);
+	GuiWindow guifull(true);
 	auto cRight = std::make_shared<GuiContainer>();
 
 	guiw.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 200.f,40.f }, sf::Color::Red));
@@ -80,6 +81,13 @@ int main() {
 	guiw.setPosition({ 200.f,200.f });
 	guiw.setScale({ 1.3f,1.3f });
 
+	guifull.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 100.f,50.f }, sf::Color::Cyan));
+	guifull.addElement(GUI_SPACE(20.f));
+	guifull.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 100.f,50.f }, sf::Color::Cyan));
+	guifull.setVertical();
+	guifull.setPosition({ 150.f,150.f });
+
+	global.guiWindows.push_back(&guifull);
 	global.guiWindows.push_back(&guiw);
 
 	//guiw.setRotation(70.f);
