@@ -20,6 +20,8 @@ public:
 
 	virtual void solveSize();
 
+	virtual bool click(sf::Vector2f point);
+
 private:
 	std::vector<GuiElementPtr> elements;
 	bool sortVertical = true;

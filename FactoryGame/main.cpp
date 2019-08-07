@@ -18,7 +18,7 @@ Global global;
 int main() {
 	//setting the user data path
 
-	
+
 	//all savegames
 	auto ss = Savegame::getAllSavegames();
 
@@ -64,7 +64,7 @@ int main() {
 	global.openedMap = mdb.getMap(1, svg->getObjects());
 
 	//temp
-	GuiWindow guiw;
+	GuiWindow guiw(false);
 	auto cRight = std::make_shared<GuiContainer>();
 
 	guiw.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 200.f,40.f }, sf::Color::Red));
@@ -77,9 +77,14 @@ int main() {
 
 
 	guiw.setHorizontal();
-	guiw.setPosition({ 100.f,100.f });
+	guiw.setPosition({ 200.f,200.f });
+	guiw.setScale({ 1.3f,1.3f });
+
+	global.guiWindows.push_back(&guiw);
 
 	//guiw.setRotation(70.f);
+
+	bool ClickedOnGui = false;
 
 	sf::Clock deltaClock;
 	double delta = 0;
@@ -100,10 +105,34 @@ int main() {
 				window.close();
 				break;
 			case sf::Event::MouseButtonPressed:
-				global.openedMap->mouseClickEvent(event.mouseButton);
+			{
+				bool hit=false;
+				for (auto w = global.guiWindows.rbegin();w != global.guiWindows.rend(); ++w) 
+				{
+					auto dw= *w;
+					if (dw->click(sf::Vector2f{ float(event.mouseButton.x),float(event.mouseButton.y) })) 
+					{
+						hit = true;
+						break;
+					}
+				}
+				
+				if (!hit)
+					global.openedMap->mouseClickEvent(event.mouseButton);
+				else
+					ClickedOnGui = true;
 				break;
+			}
+
 			case sf::Event::MouseButtonReleased:
-				global.openedMap->mouseReleaseEvent(event.mouseButton);
+				if (ClickedOnGui)
+				{
+					ClickedOnGui = false;
+				}
+				else
+				{
+					global.openedMap->mouseReleaseEvent(event.mouseButton);
+				}
 				break;
 			case sf::Event::MouseWheelMoved:
 				global.openedMap->zoomCamera(event.mouseWheel.delta);
@@ -173,7 +202,10 @@ int main() {
 		//Rendering Window
 		window.clear(sf::Color(0, 0, 0, 255));
 		window.draw(mapSprite);
-		window.draw(guiw);
+		for (auto w : global.guiWindows)
+		{
+			window.draw(*w);
+		}
 		window.display();
 	}
 

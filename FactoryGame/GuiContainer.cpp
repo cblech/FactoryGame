@@ -83,3 +83,42 @@ void GuiContainer::solveSize()
 		size = { add,max };
 	}
 }
+
+bool GuiContainer::click(sf::Vector2f point)
+{
+	if (sortVertical)
+	{
+		for (auto e : elements)
+		{
+			if (point.y < e->size.y)
+			{
+				if (e->click(point))
+					return true;
+				else
+					return false;
+				break;
+			}
+			else {
+				point.y -= e->size.y;
+			}
+		}
+	}
+	else
+	{
+		for (auto e : elements)
+		{
+			if (point.x < e->size.x)
+			{
+				if (e->click(point))
+					return true;
+				else
+					return false;
+				break;
+			}
+			else {
+				point.x -= e->size.x;
+			}
+		}
+	}
+	return false;
+}

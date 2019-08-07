@@ -7,6 +7,8 @@ public:
 	~GuiRectangle();
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+	virtual bool click(sf::Vector2f point);
 private:
 	sf::RectangleShape rec;
 };

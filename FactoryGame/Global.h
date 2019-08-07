@@ -2,6 +2,8 @@
 #include <filesystem>
 #include "Options.h"
 #include "GameMap.h"
+#include "GuiWindow.h"
+#include <vector>
 
 #define spaceSizePX 64
 
@@ -14,7 +16,7 @@ public:
 	std::filesystem::path userDataPath;
 	Options options;
 	GameMap * openedMap;
-	
+	std::vector<GuiWindow *> guiWindows;
 };
 
 extern Global global;

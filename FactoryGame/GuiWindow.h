@@ -5,7 +5,7 @@
 class GuiWindow : public GuiContainer, public sf::Transformable
 {
 public:
-	GuiWindow();
+	GuiWindow(bool showBackground = true);
 	~GuiWindow();
 
 	sf::Vector2f getSize();
@@ -15,9 +15,12 @@ public:
 
 
 	virtual void solveSize();
+	bool contains(sf::Vector2f point);
+	virtual bool click(sf::Vector2f point);
 
 private:
 	sf::RectangleShape background;
-	GuiContainer container;
+	bool showBackground;
+	//GuiContainer container;
 };
 
