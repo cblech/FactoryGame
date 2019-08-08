@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#define BACKGROUND_COLOR sf::Color(180, 180, 255, 255)
+
 class GuiElement:public sf::Drawable
 {
 public:

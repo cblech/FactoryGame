@@ -1,10 +1,9 @@
 #include "GuiWindow.h"
 
 
-
 GuiWindow::GuiWindow(bool showBackground) :showBackground(showBackground)
 {
-	background.setFillColor(sf::Color(180, 180, 255, 255));
+	background.setFillColor(BACKGROUND_COLOR);
 	background.setOutlineColor(sf::Color::Black);
 	background.setOutlineThickness(1.f);
 	background.setSize({ 10.f, 10.f });

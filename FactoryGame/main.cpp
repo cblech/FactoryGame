@@ -114,7 +114,7 @@ int main() {
 				break;
 			case sf::Event::MouseButtonPressed:
 			{
-				bool hit=false;
+				bool hit=false;//changes to true, when the mouse button hits a GuiWindow
 				for (auto w = global.guiWindows.rbegin();w != global.guiWindows.rend(); ++w) 
 				{
 					auto dw= *w;

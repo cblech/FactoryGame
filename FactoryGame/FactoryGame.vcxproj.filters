@@ -84,6 +84,9 @@
     <ClCompile Include="Global.cpp">
       <Filter>Quelldateien\misc</Filter>
     </ClCompile>
+    <ClCompile Include="GuiButton.cpp">
+      <Filter>Quelldateien\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Headerdateien\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiButton.h">
+      <Filter>Headerdateien\gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

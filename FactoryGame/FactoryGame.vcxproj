@@ -139,6 +139,7 @@
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="GmObjCar.cpp" />
     <ClCompile Include="GmObjDoor.cpp" />
+    <ClCompile Include="GuiButton.cpp" />
     <ClCompile Include="GuiContainer.cpp" />
     <ClCompile Include="GuiElement.cpp" />
     <ClCompile Include="GuiRectangle.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="GmObjCar.h" />
     <ClInclude Include="GmObjDoor.h" />
+    <ClInclude Include="GuiButton.h" />
     <ClInclude Include="GuiContainer.h" />
     <ClInclude Include="GuiElement.h" />
     <ClInclude Include="GuiRectangle.h" />
