@@ -87,6 +87,15 @@
     <ClCompile Include="GuiButton.cpp">
       <Filter>Quelldateien\gui</Filter>
     </ClCompile>
+    <ClCompile Include="Clickable.cpp">
+      <Filter>Quelldateien\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="ClickStack.cpp">
+      <Filter>Quelldateien\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="ClickableGuiElement.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt">
@@ -178,6 +187,15 @@
     </ClInclude>
     <ClInclude Include="GuiButton.h">
       <Filter>Headerdateien\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Clickable.h">
+      <Filter>Headerdateien\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickStack.h">
+      <Filter>Headerdateien\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickableGuiElement.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

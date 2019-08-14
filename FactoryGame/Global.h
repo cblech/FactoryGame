@@ -4,6 +4,7 @@
 #include "GameMap.h"
 #include "GuiWindow.h"
 #include <vector>
+#include "ClickStack.h"
 
 #define spaceSizePX 64
 
@@ -17,6 +18,7 @@ public:
 	Options options;
 	GameMap * openedMap;
 	std::vector<GuiWindow *> guiWindows;
+	ClickStack clickStack;
 };
 
 extern Global global;

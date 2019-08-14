@@ -11,11 +11,13 @@
 #include "GuiWindow.h"
 #include "GuiRectangle.h"
 #include "Global.h"
+#include "ClickableGuiElement.h"
 
 Global global;
 /////////////////////////////////////////////////////////////
 
 int main() {
+
 	//setting the user data path
 
 
@@ -170,6 +172,7 @@ int main() {
 		}
 		//Mouse Tick
 		global.openedMap->checkMousePosition(sf::Mouse::getPosition(window));
+		global.clickStack.mouseTick(sf::Mouse::getPosition(window));
 
 		//Camera move tick
 		if (window.hasFocus())

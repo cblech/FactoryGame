@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -134,6 +134,9 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Clamp.cpp" />
+    <ClCompile Include="Clickable.cpp" />
+    <ClCompile Include="ClickableGuiElement.cpp" />
+    <ClCompile Include="ClickStack.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Global.cpp" />
@@ -167,6 +170,9 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Clamp.h" />
+    <ClInclude Include="Clickable.h" />
+    <ClInclude Include="ClickableGuiElement.h" />
+    <ClInclude Include="ClickStack.h" />
     <ClInclude Include="Coords.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="GameMap.h" />
