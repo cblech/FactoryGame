@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -92,6 +92,7 @@
       <AdditionalIncludeDirectories>C:\Users\jonathan\Documents\Visual Studio 2017\Libs\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\jonathan\Documents\Visual Studio 2017\Libs\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -123,6 +124,8 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\jonathan\Documents\Visual Studio 2017\Libs\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -134,10 +137,19 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Clamp.cpp" />
+    <ClCompile Include="Clickable.cpp" />
+    <ClCompile Include="ClickableGuiElement.cpp" />
+    <ClCompile Include="ClickStack.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="GmObjCar.cpp" />
     <ClCompile Include="GmObjDoor.cpp" />
+    <ClCompile Include="GuiButton.cpp" />
+    <ClCompile Include="GuiContainer.cpp" />
+    <ClCompile Include="GuiElement.cpp" />
+    <ClCompile Include="GuiRectangle.cpp" />
+    <ClCompile Include="GuiWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDatabase.cpp" />
     <ClCompile Include="Options.cpp" />
@@ -161,13 +173,21 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Clamp.h" />
+    <ClInclude Include="Clickable.h" />
+    <ClInclude Include="ClickableGuiElement.h" />
+    <ClInclude Include="ClickStack.h" />
     <ClInclude Include="Coords.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GlobalDefines.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="GmObjCar.h" />
     <ClInclude Include="GmObjDoor.h" />
+    <ClInclude Include="GuiButton.h" />
+    <ClInclude Include="GuiContainer.h" />
+    <ClInclude Include="GuiElement.h" />
+    <ClInclude Include="GuiRectangle.h" />
+    <ClInclude Include="GuiWindow.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MapDatabase.h" />
     <ClInclude Include="Options.h" />

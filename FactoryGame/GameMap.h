@@ -2,11 +2,12 @@
 #include <SFML\Graphics.hpp>
 #include <vector>
 #include "GmObjCar.h"
-#include "GlobalDefines.h"
+#include "Global.h"
 #include "Space.h"
 #include "GmObjDoor.h"
+#include "Clickable.h"
 
-class GameMap : public sf::Drawable
+class GameMap : public sf::Drawable, public Clickable
 {
 public:
 	enum Type
@@ -38,9 +39,15 @@ public:
 	void setDrawnIn(sf::RenderTarget * rt);
 
 	bool initByFile(std::string filename,nlohmann::json objs);
-	void checkMousePosition(ScreenPixelCoor pos);
-	void mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent);
-	void mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent);
+
+	void onMouseTick(ScreenPixelCoor pos) override;
+	void onMouseRawStart(ScreenPixelCoor mousePosition, sf::Mouse::Button button) override;
+	void onMouseRawEnd(ScreenPixelCoor mosuePosition, sf::Mouse::Button button) override;
+
+	void onMouseHoverStart() override;
+	void onMouseHoverEnd() override;
+
+	
 	friend void GameObject::solveSpaceDependencies();
 
 	GameObject * carriedObject = nullptr;
@@ -63,6 +70,9 @@ public:
 	inline Space * getSpaceByMapSpaceCoor(int x, int y);
 	inline Space * getSpaceByMapSpaceCoor(MapSpaceCoor pos);
 	void solveObjectsMap();
+
+	//For the Clickable
+	bool doesHover(ScreenPixelCoor mousePosition) override;
 
 private:
 	int id;

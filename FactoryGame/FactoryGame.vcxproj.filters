@@ -31,6 +31,12 @@
     <Filter Include="Headerdateien\gameplay\gameobjects">
       <UniqueIdentifier>{f82417f2-8da2-45a2-923d-abbc08482c6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\gui">
+      <UniqueIdentifier>{05b6d76c-68fe-4618-b056-b8de420dee89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\gui">
+      <UniqueIdentifier>{49c6e11d-88d5-4b84-987d-55a3292537c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -62,6 +68,33 @@
     </ClCompile>
     <ClCompile Include="GmObjDoor.cpp">
       <Filter>Quelldateien\gameplay\gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiWindow.cpp">
+      <Filter>Quelldateien\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiContainer.cpp">
+      <Filter>Quelldateien\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiElement.cpp">
+      <Filter>Quelldateien\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiRectangle.cpp">
+      <Filter>Quelldateien\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Quelldateien\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiButton.cpp">
+      <Filter>Quelldateien\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Clickable.cpp">
+      <Filter>Quelldateien\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="ClickStack.cpp">
+      <Filter>Quelldateien\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="ClickableGuiElement.cpp">
+      <Filter>Quelldateien\misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,9 +143,6 @@
     <ClInclude Include="debug.h">
       <Filter>Headerdateien\misc</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalDefines.h">
-      <Filter>Headerdateien\misc</Filter>
-    </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>Headerdateien\misc</Filter>
     </ClInclude>
@@ -139,6 +169,33 @@
     </ClInclude>
     <ClInclude Include="GmObjDoor.h">
       <Filter>Headerdateien\gameplay\gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiWindow.h">
+      <Filter>Headerdateien\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiContainer.h">
+      <Filter>Headerdateien\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiElement.h">
+      <Filter>Headerdateien\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiRectangle.h">
+      <Filter>Headerdateien\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Headerdateien\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiButton.h">
+      <Filter>Headerdateien\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Clickable.h">
+      <Filter>Headerdateien\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickStack.h">
+      <Filter>Headerdateien\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickableGuiElement.h">
+      <Filter>Headerdateien\misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
