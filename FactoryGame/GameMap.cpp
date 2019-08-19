@@ -7,13 +7,15 @@
 
 using namespace nlohmann;
 
-GameMap::GameMap(int id, sf::RenderTarget * drawnIn, float pixelRatio) :id(id),drawnIn(drawnIn),pixelRatio(pixelRatio)
+GameMap::GameMap(int id, sf::RenderTarget * drawnIn, float pixelRatio) :id(id), drawnIn(drawnIn), pixelRatio(pixelRatio)
 {
 	//mapView.reset({ 0,0,1280,720 });
 	//objects.push_back(&doory);
 	//objects.push_back(&carlos);
 
-
+	setBlocking(true);
+	enable();
+	global.clickStack.registerClickable(this, 10);
 }
 
 
@@ -25,6 +27,7 @@ GameMap::~GameMap()
 		spaces.pop_back();
 		delete tmp;
 	}
+	global.clickStack.checkoutClickable(this, 10);
 }
 
 int GameMap::getID()
@@ -50,7 +53,7 @@ std::vector<GameObject*> GameMap::getObjects()
 void GameMap::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	//draw the Background
-	target.draw(backgroundSprite,states);
+	target.draw(backgroundSprite, states);
 	for (auto * o : objects)
 	{
 		target.draw(*o, states);
@@ -71,7 +74,7 @@ ScreenPixelCoor GameMap::MapPixelCoorTOScreenPixelCoor(MapPixelCoor mpc)
 
 MapSpaceCoor GameMap::MapPixelCoorTOMapSpaceCoor(MapPixelCoor mpc)
 {
-	return MapSpaceCoor(mpc/float(spaceSizePX));
+	return MapSpaceCoor(mpc / float(spaceSizePX));
 }
 
 MapPixelCoor GameMap::MapSpaceCoorTOMapPixelCoor(MapSpaceCoor msc)
@@ -160,19 +163,19 @@ bool GameMap::initByFile(std::string filename, nlohmann::json objs)
 			newObject->solveSpaceDependencies();
 			objects.push_back(newObject);
 		}
-		
+
 	}
 
 	return true;
 }
 
-void GameMap::checkMousePosition(ScreenPixelCoor pos)
+void GameMap::onMouseTick(ScreenPixelCoor pos)
 {
 	//std::cout <<"X: "<< (pos.x / spaceSizePX) << " Y: " << (pos.y / spaceSizePX)<<std::endl;
 
 	Space * newSpace = getSpaceByMapSpaceCoor(MapPixelCoorTOMapSpaceCoor(ScreenPixelCoorTOMapPixelCoor(pos)));
 
-	if (newSpace != mouseHoveringSpace) 
+	if (newSpace != mouseHoveringSpace)
 	{
 		mouseHoveringSpace = newSpace;
 
@@ -183,6 +186,8 @@ void GameMap::checkMousePosition(ScreenPixelCoor pos)
 			if (mouseHoveringSpace->ocupiedBy != hoveringGameObject)
 			{
 				//Executes when mouse switches from or to an GameObject
+				if (getHovering())
+				{
 
 				if (hoveringGameObject != nullptr)
 					hoveringGameObject->hoverEnd(ScreenPixelCoorTOMapPixelCoor(pos));
@@ -190,30 +195,33 @@ void GameMap::checkMousePosition(ScreenPixelCoor pos)
 				if (mouseHoveringSpace->ocupiedBy != nullptr)
 					mouseHoveringSpace->ocupiedBy->hoverStart(ScreenPixelCoorTOMapPixelCoor(pos));
 
+				}
 				hoveringGameObject = mouseHoveringSpace->ocupiedBy;
 			}
 
-/*
-			switch (mouseHoveringSpace->spaceType)
-			{
-			case SpaceType::none:
-				std::cout << "Air" << std::endl;
-				break;
-			case SpaceType::wall:
-				std::cout << "Wall" << std::endl;
-				break;
-			case SpaceType::object:
-				std::cout << "Object: " << mouseHoveringSpace->ocupiedBy->getName() <<std::endl;
-				break;
-			default:
-				std::cout << "Dafuq? Wie bist du hier hin gekommen??" << std::endl;
-				break;
-			}*/
+			/*
+						switch (mouseHoveringSpace->spaceType)
+						{
+						case SpaceType::none:
+							std::cout << "Air" << std::endl;
+							break;
+						case SpaceType::wall:
+							std::cout << "Wall" << std::endl;
+							break;
+						case SpaceType::object:
+							std::cout << "Object: " << mouseHoveringSpace->ocupiedBy->getName() <<std::endl;
+							break;
+						default:
+							std::cout << "Dafuq? Wie bist du hier hin gekommen??" << std::endl;
+							break;
+						}*/
 		}
 	}
-	
+
+
+
 	//Handle mouse hold events
-	if (!holding && holdingGameObject != nullptr && holdingGameObject==hoveringGameObject && holdStartTime.getElapsedTime() > sf::milliseconds(500))
+	if (!holding && holdingGameObject != nullptr && holdingGameObject == hoveringGameObject && holdStartTime.getElapsedTime() > sf::milliseconds(500))
 	{
 		holdingGameObject->holdStart(ScreenPixelCoorTOMapPixelCoor(pos));
 		holding = true;
@@ -228,69 +236,81 @@ void GameMap::checkMousePosition(ScreenPixelCoor pos)
 	//Stuff for Window dragging 
 	if (cameraIsDraged)
 	{
-		moveCamera(mousePositionWhileDragged-ScreenPixelCoorTOMapPixelCoor(pos));
+		moveCamera(mousePositionWhileDragged - ScreenPixelCoorTOMapPixelCoor(pos));
 		//mousePositionWhileDragged = ScreenPixelCoorTOMapPixelCoor(pos);
 	}
 }
 
 //This function is executet, when any mousebutton is pressed
-void GameMap::mouseClickEvent(sf::Event::MouseButtonEvent mouseEvent)
+void GameMap::onMouseRawStart(ScreenPixelCoor mousePosition, sf::Mouse::Button button)
 {
 	//when the LEFT mouse button is pressed
-	if (mouseEvent.button == sf::Mouse::Button::Left) {
+	if (button == sf::Mouse::Button::Left) {
 		if (hoveringGameObject != nullptr)
 		{
-			hoveringGameObject->clickStart(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
+			hoveringGameObject->clickStart(ScreenPixelCoorTOMapPixelCoor({ mousePosition.x,mousePosition.y }));
 
 			holdStartTime.restart();
 			holdingGameObject = hoveringGameObject;
 		}
 	}
 	//when the RIGHT mouse button is pressed
-	else if (mouseEvent.button == sf::Mouse::Button::Right)
+	else if (button == sf::Mouse::Button::Right)
 	{
 		if (carriedObject != nullptr)
 		{
-			carriedObject->rightClick(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
+			carriedObject->rightClick(ScreenPixelCoorTOMapPixelCoor({ mousePosition.x,mousePosition.y }));
 		}
-		else if(hoveringGameObject != nullptr)
-			hoveringGameObject->rightClick(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
+		else if (hoveringGameObject != nullptr)
+			hoveringGameObject->rightClick(ScreenPixelCoorTOMapPixelCoor({ mousePosition.x,mousePosition.y }));
 
 		//mapView.rotate(30.f);
 	}
 	//start dragging Camera
-	else if (mouseEvent.button == sf::Mouse::Button::Middle)
+	else if (button == sf::Mouse::Button::Middle)
 	{
 		cameraIsDraged = true;
-		mousePositionWhileDragged = ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y });
+		mousePositionWhileDragged = ScreenPixelCoorTOMapPixelCoor({ mousePosition.x,mousePosition.y });
 	}
 
 }
 
 //This function is executet, when any mousebutton is released
-void GameMap::mouseReleaseEvent(sf::Event::MouseButtonEvent mouseEvent)
+void GameMap::onMouseRawEnd(ScreenPixelCoor mosuePosition, sf::Mouse::Button button)
 {
 	//When the left mouse button is released
-	if (mouseEvent.button == sf::Mouse::Button::Left) {
+	if (button == sf::Mouse::Button::Left) {
 		if (holdingGameObject != nullptr)
 		{
 			if (holding)
 			{
-				holdingGameObject->holdEnd(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
+				holdingGameObject->holdEnd(ScreenPixelCoorTOMapPixelCoor({ mosuePosition.x,mosuePosition.y }));
 				holding = false;
 			}
 			else
 			{
-				holdingGameObject->click(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
+				holdingGameObject->click(ScreenPixelCoorTOMapPixelCoor({ mosuePosition.x,mosuePosition.y }));
 			}
-			holdingGameObject->clickEnd(ScreenPixelCoorTOMapPixelCoor({ mouseEvent.x,mouseEvent.y }));
+			holdingGameObject->clickEnd(ScreenPixelCoorTOMapPixelCoor({ mosuePosition.x,mosuePosition.y }));
 			holdingGameObject = nullptr;
 		}
 	}
-	else if (mouseEvent.button == sf::Mouse::Button::Middle)
+	else if (button == sf::Mouse::Button::Middle)
 	{
 		cameraIsDraged = false;
 	}
+}
+
+void GameMap::onMouseHoverStart()
+{
+	if (mouseHoveringSpace!=nullptr&& mouseHoveringSpace->ocupiedBy != nullptr)
+		mouseHoveringSpace->ocupiedBy->hoverStart({0,0});
+}
+
+void GameMap::onMouseHoverEnd()
+{	
+	if (hoveringGameObject != nullptr)
+		hoveringGameObject->hoverEnd({0,0});
 }
 
 sf::View GameMap::getMapView()
@@ -306,11 +326,11 @@ void GameMap::setMapView(sf::View view)
 
 void GameMap::moveCamera(Direction dir, double delta)
 {
-	const double movementspeed = double(zoomLevel*zoomLevel) ;
+	const double movementspeed = double(zoomLevel*zoomLevel);
 	switch (dir)
 	{
 	case up:
-		moveCamera(MapPixelCoor(0,-movementspeed*delta));
+		moveCamera(MapPixelCoor(0, -movementspeed * delta));
 		break;
 	case right:
 		moveCamera(MapPixelCoor(movementspeed * delta, 0));
@@ -328,7 +348,7 @@ void GameMap::moveCamera(Direction dir, double delta)
 
 void GameMap::moveCamera(MapPixelCoor offset)
 {
-	mapView.setCenter(clamp(mapView.getCenter() + offset, { 0,0 }, {MapSpaceCoorTOMapPixelCoor(size)}));
+	mapView.setCenter(clamp(mapView.getCenter() + offset, { 0,0 }, { MapSpaceCoorTOMapPixelCoor(size) }));
 }
 
 void GameMap::zoomCamera(double delta)
@@ -355,7 +375,7 @@ void GameMap::emptyHoveringGameObject()
 	mouseHoveringSpace = nullptr;
 }
 
-bool GameMap::checkForFreeSpaces(MapSpaceCoor from, MapSpaceCoor to,GameObject * self)
+bool GameMap::checkForFreeSpaces(MapSpaceCoor from, MapSpaceCoor to, GameObject * self)
 {
 	MapSpaceCoor topLeft((from.x < to.x) ? from.x : to.x, (from.y < to.y) ? from.y : to.y);
 	MapSpaceCoor bottomRight((from.x > to.x) ? from.x : to.x, (from.y > to.y) ? from.y : to.y);
@@ -377,7 +397,7 @@ bool GameMap::checkForFreeSpaces(MapSpaceCoor from, MapSpaceCoor to,GameObject *
 			if (tmpSpace->spaceType != SpaceType::none)
 				if (!(tmpSpace->spaceType == SpaceType::object && tmpSpace->ocupiedBy == self))
 					return false;
-					
+
 			tmpSpace = tmpSpace->below;
 		}
 		testSpace = testSpace->right;
@@ -399,14 +419,19 @@ inline Space * GameMap::getSpaceByMapSpaceCoor(int x, int y) {
 
 inline Space * GameMap::getSpaceByMapSpaceCoor(MapSpaceCoor pos)
 {
-	return getSpaceByMapSpaceCoor(pos.x,pos.y);
+	return getSpaceByMapSpaceCoor(pos.x, pos.y);
 }
 
 void GameMap::solveObjectsMap()
 {
-	for (auto o : objects) 
+	for (auto o : objects)
 	{
 		o->setGameMap(this);
 	}
+}
+
+bool GameMap::doesHover(ScreenPixelCoor mousePosition)
+{
+	return true;
 }
 

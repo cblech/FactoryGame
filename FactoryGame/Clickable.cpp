@@ -24,9 +24,67 @@ bool Clickable::isBlocking()
 	return blocking;
 }
 
+void Clickable::processMousePressed(sf::Event::MouseButtonEvent evnt)
+{
+	onMouseRawStart({ evnt.x ,evnt.y }, evnt.button);
+	switch (evnt.button) 
+	{
+	case sf::Mouse::Button::Left:
+		onMouseLeftStart({ evnt.x ,evnt.y });
+		break;
+	case sf::Mouse::Button::Right:
+		onMouseRightStart({ evnt.x ,evnt.y });
+		break;
+	case sf::Mouse::Button::Middle:
+		onMouseMiddleStart({ evnt.x ,evnt.y });
+		break;
+	case sf::Mouse::Button::XButton1:
+		onMouseFourStart({ evnt.x ,evnt.y });
+		break;
+	case sf::Mouse::Button::XButton2:
+		onMouseFiveStart({ evnt.x ,evnt.y });
+		break;
+	default:
+		break;
+	}
+}
+
+void Clickable::processMouseReleased(sf::Event::MouseButtonEvent evnt)
+{
+	onMouseRawEnd({ evnt.x ,evnt.y }, evnt.button);
+	switch (evnt.button)
+	{
+	case sf::Mouse::Button::Left:
+		onMouseLeftEnd({ evnt.x ,evnt.y });
+		break;
+	case sf::Mouse::Button::Right:
+		onMouseRightEnd({ evnt.x ,evnt.y });
+		break;
+	case sf::Mouse::Button::Middle:
+		onMouseMiddleEnd({ evnt.x ,evnt.y });
+		break;
+	case sf::Mouse::Button::XButton1:
+		onMouseFourEnd({ evnt.x ,evnt.y });
+		break;
+	case sf::Mouse::Button::XButton2:
+		onMouseFiveEnd({ evnt.x ,evnt.y });
+		break;
+	default:
+		break;
+	}
+}
+
 void Clickable::setHovering(bool h)
 {
-	hovering = h;
+
+	if (h != hovering)
+	{
+		hovering = h;
+		if (hovering)
+			onMouseHoverStart();
+		else
+			onMouseHoverEnd();
+	}
 }
 
 bool Clickable::getHovering()
@@ -34,14 +92,48 @@ bool Clickable::getHovering()
 	return hovering;
 }
 
+void Clickable::setEnabled(bool e)
+{
+	enabled = e;
+}
+
+void Clickable::enable()
+{
+	enabled = true;
+}
+
+void Clickable::disable()
+{
+	enabled = false;
+}
+
+bool Clickable::isEnabled()
+{
+	return enabled;
+}
+
+int Clickable::getLevel()
+{
+	return level;
+}
+
+void Clickable::setBlocking(bool b)
+{
+	blocking = b;
+}
+
 
 #pragma region MouseEvents
 
-void Clickable::onMouseHoverStart(ScreenPixelCoor mousePosition)
+void Clickable::onMouseHoverStart()
 {
 }
 
-void Clickable::onmouseHoverEnd(ScreenPixelCoor mousePosition)
+void Clickable::onMouseHoverEnd()
+{
+}
+
+void Clickable::onMouseTick(ScreenPixelCoor mousePosition)
 {
 }
 

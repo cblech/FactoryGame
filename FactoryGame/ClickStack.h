@@ -1,12 +1,23 @@
 #pragma once
 #include <vector>
-#include <map>
+#include <list>
 #include "Clickable.h"
 #include "Coords.h"
+
+
 
 class ClickStack
 {
 public:
+	
+	struct ClickableLevel
+	{
+		ClickableLevel(int l) :level(l) {}
+		int level;
+		std::vector<Clickable *> cbs;
+	};
+
+	
 	ClickStack();
 	~ClickStack();
 
@@ -20,6 +31,9 @@ public:
 
 
 private:
-	 std::vector<Clickable *> clickables[100];
+	 std::list<ClickableLevel> clickables;
+	 std::vector<Clickable *> currentyClicked;
 };
+
+bool operator< (const ClickStack::ClickableLevel & left, const ClickStack::ClickableLevel & right);
 

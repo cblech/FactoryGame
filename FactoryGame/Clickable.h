@@ -18,9 +18,11 @@ public:
 
 #pragma region MouseEvents
 
-	virtual void onMouseHoverStart(ScreenPixelCoor mousePosition);
-	virtual void onmouseHoverEnd(ScreenPixelCoor mousePosition);
+	virtual void onMouseHoverStart();
+	virtual void onMouseHoverEnd();
 	
+	virtual void onMouseTick(ScreenPixelCoor mousePosition);
+
 	virtual void onMouseLeftStart(ScreenPixelCoor mousePosition);
 	virtual void onMouseLeftEnd(ScreenPixelCoor mousePosition);
 	
@@ -41,11 +43,26 @@ public:
 
 #pragma endregion 
 
+	void processMousePressed(sf::Event::MouseButtonEvent evnt);
+	void processMouseReleased(sf::Event::MouseButtonEvent evnt);
+
 	void setHovering(bool h);
 	bool getHovering();
 
+	void setEnabled(bool e);
+	void enable();
+	void disable();
+	bool isEnabled();
+
+	int getLevel();
+
+protected:
+	void setBlocking(bool b);
+
 private:
-	bool hovering;
-	bool blocking;
+	bool hovering = false;
+	bool blocking = false;
+	bool enabled = true;
+	int level = 0;
 };
 

@@ -12,14 +12,24 @@
 #include "GuiRectangle.h"
 #include "Global.h"
 #include "ClickableGuiElement.h"
+#include "GuiButton.h"
+#include "SFML/Network.hpp"
+
+/*
+void OpenWebsite(char * cpURL)
+{
+	ShellExecute(NULL, "open", cpURL, NULL, NULL, SW_SHOWNORMAL);
+}
+*/
+
 
 Global global;
 /////////////////////////////////////////////////////////////
 
 int main() {
 
-	//setting the user data path
 
+	//setting the user data path
 
 	//all savegames
 	auto ss = Savegame::getAllSavegames();
@@ -66,33 +76,37 @@ int main() {
 	global.openedMap = mdb.getMap(1, svg->getObjects());
 
 	//temp
-	GuiWindow guiw(false);
-	GuiWindow guifull(true);
+	GuiWindow guiw(true);
+	//GuiWindow guifull(true);
 	auto cRight = std::make_shared<GuiContainer>();
+	auto btn = std::make_shared<GuiButton>(sf::Vector2f{ 150.f,40.f });
 
-	guiw.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 200.f,40.f }, sf::Color::Red));
-	guiw.addElement(GUI_SPACE(5.f));
-	guiw.addElement(cRight);
+	btn->setClickFunc([]() {std::cout << "Button Click Funcion" << std::endl; });
+
+	guiw.container.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 200.f,40.f }, sf::Color::Red));
+	guiw.container.addElement(GUI_SPACE(5.f));
+	guiw.container.addElement(cRight);
 
 	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 150.f,80.f }, sf::Color::Green));
 	cRight->addElement(GUI_SPACE(5.f));
-	cRight->addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 150.f,40.f }, sf::Color::Blue));
+	cRight->addElement(btn);
 
 
-	guiw.setHorizontal();
-	guiw.setPosition({ 200.f,200.f });
-	guiw.setScale({ 1.3f,1.3f });
+	guiw.totalTransform.translate({ 200.f,200.f });
+	//guiw.totalTransform.rotate(70.f);
+	guiw.totalTransform.scale({ 1.3f,1.3f });
+	guiw.container.setHorizontal();
+	guiw.solveSize();
 
-	guifull.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 100.f,50.f }, sf::Color::Cyan));
-	guifull.addElement(GUI_SPACE(20.f));
-	guifull.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 100.f,50.f }, sf::Color::Cyan));
-	guifull.setVertical();
-	guifull.setPosition({ 150.f,150.f });
-
-	global.guiWindows.push_back(&guifull);
+	//guifull.container.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 100.f,50.f }, sf::Color::Cyan));
+	//guifull.container.addElement(GUI_SPACE(20.f));
+	//guifull.container.addElement(std::make_shared<GuiRectangle>(sf::Vector2f{ 100.f,50.f }, sf::Color::Cyan));
+	//guifull.container.setVertical();
+	//guifull.container.setPosition({ 150.f,150.f });
+	
+	//global.guiWindows.push_back(&guifull);
 	global.guiWindows.push_back(&guiw);
 
-	//guiw.setRotation(70.f);
 
 	bool ClickedOnGui = false;
 
@@ -102,6 +116,12 @@ int main() {
 
 	while (window.isOpen())
 	{
+#ifdef _DEBUG
+		//KeyBreak
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+			int i = 1;
+#endif
+
 		delta = deltaClock.getElapsedTime().asSeconds();
 		deltaClock.restart();
 
@@ -116,33 +136,38 @@ int main() {
 				break;
 			case sf::Event::MouseButtonPressed:
 			{
-				bool hit=false;//changes to true, when the mouse button hits a GuiWindow
-				for (auto w = global.guiWindows.rbegin();w != global.guiWindows.rend(); ++w) 
-				{
-					auto dw= *w;
-					if (dw->click(sf::Vector2f{ float(event.mouseButton.x),float(event.mouseButton.y) })) 
-					{
-						hit = true;
-						break;
-					}
-				}
 				
-				if (!hit)
-					global.openedMap->mouseClickEvent(event.mouseButton);
-				else
-					ClickedOnGui = true;
+				//bool hit=false;//changes to true, when the mouse button hits a GuiWindow
+				//for (auto w = global.guiWindows.rbegin();w != global.guiWindows.rend(); ++w) 
+				//{
+				//	auto dw= *w;
+				//	if (dw->click(sf::Vector2f{ float(event.mouseButton.x),float(event.mouseButton.y) })) 
+				//	{
+				//		hit = true;
+				//		break;
+				//	}
+				//}
+				//
+				//if (!hit)
+				//	global.openedMap->onMouseRawStart(event.mouseButton);
+				//else
+				//	ClickedOnGui = true;
+				//break;
+				global.clickStack.mousePressed(event.mouseButton);
 				break;
 			}
 
 			case sf::Event::MouseButtonReleased:
-				if (ClickedOnGui)
+				/*if (ClickedOnGui)
 				{
 					ClickedOnGui = false;
 				}
 				else
 				{
-					global.openedMap->mouseReleaseEvent(event.mouseButton);
-				}
+					global.openedMap->onMouseRawEnd(event.mouseButton);
+				}*/
+
+				global.clickStack.mouseReleased(event.mouseButton);
 				break;
 			case sf::Event::MouseWheelMoved:
 				global.openedMap->zoomCamera(event.mouseWheel.delta);
@@ -171,7 +196,7 @@ int main() {
 			}
 		}
 		//Mouse Tick
-		global.openedMap->checkMousePosition(sf::Mouse::getPosition(window));
+		//global.openedMap->onMouseTick(sf::Mouse::getPosition(window));
 		global.clickStack.mouseTick(sf::Mouse::getPosition(window));
 
 		//Camera move tick

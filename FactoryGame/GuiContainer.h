@@ -20,7 +20,7 @@ public:
 
 	virtual void solveSize();
 
-	virtual bool click(sf::Vector2f point);
+	//virtual bool click(sf::Vector2f point);
 
 private:
 	std::vector<GuiElementPtr> elements;

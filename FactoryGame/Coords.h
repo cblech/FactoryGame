@@ -10,6 +10,7 @@ typedef sf::Vector2i MapSpaceCoor;
 typedef sf::Vector2i ObjectSpaceCoor;
 typedef sf::Vector2f ObjectPixelCoor;
 typedef sf::Vector2f OverlayPixelCoor;
+typedef sf::Vector2f OverlayLocalCoor;
 
 
 namespace nlohmann {

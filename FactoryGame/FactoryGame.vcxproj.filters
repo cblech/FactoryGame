@@ -94,7 +94,7 @@
       <Filter>Quelldateien\misc</Filter>
     </ClCompile>
     <ClCompile Include="ClickableGuiElement.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +195,7 @@
       <Filter>Headerdateien\misc</Filter>
     </ClInclude>
     <ClInclude Include="ClickableGuiElement.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

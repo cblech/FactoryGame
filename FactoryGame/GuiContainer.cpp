@@ -1,7 +1,6 @@
 #include "GuiContainer.h"
 
 
-
 GuiContainer::GuiContainer()
 {
 }
@@ -34,8 +33,9 @@ void GuiContainer::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 
 void GuiContainer::addElement(GuiElementPtr element)
 {
-	elements.push_back(element);
+	elements.push_back(element); 
 	solveSize();
+
 }
 
 void GuiContainer::clearElements()
@@ -64,9 +64,14 @@ void GuiContainer::solveSize()
 		float max = 0;
 		for (auto e : elements)
 		{
+			e->totalTransform = totalTransform;
+			e->totalTransform.translate(0, add);
+			e->solveSize();
+
 			add += e->size.y;
 			if (max < e->size.x)
 				max = e->size.x;
+
 		}
 		size = { max,add };
 	}
@@ -76,6 +81,10 @@ void GuiContainer::solveSize()
 		float max = 0;
 		for (auto e : elements)
 		{
+			e->totalTransform = totalTransform;
+			e->totalTransform.translate(add ,0);
+			e->solveSize();
+
 			add += e->size.x;
 			if (max < e->size.y)
 				max = e->size.y;
@@ -84,41 +93,41 @@ void GuiContainer::solveSize()
 	}
 }
 
-bool GuiContainer::click(sf::Vector2f point)
-{
-	if (sortVertical)
-	{
-		for (auto e : elements)
-		{
-			if (point.y < e->size.y)
-			{
-				if (e->click(point))
-					return true;
-				else
-					return false;
-				break;
-			}
-			else {
-				point.y -= e->size.y;
-			}
-		}
-	}
-	else
-	{
-		for (auto e : elements)
-		{
-			if (point.x < e->size.x)
-			{
-				if (e->click(point))
-					return true;
-				else
-					return false;
-				break;
-			}
-			else {
-				point.x -= e->size.x;
-			}
-		}
-	}
-	return false;
-}
+//bool GuiContainer::click(sf::Vector2f point)
+//{
+//	if (sortVertical)
+//	{
+//		for (auto e : elements)
+//		{
+//			if (point.y < e->size.y)
+//			{
+//				if (e->click(point))
+//					return true;
+//				else
+//					return false;
+//				break;
+//			}
+//			else {
+//				point.y -= e->size.y;
+//			}
+//		}
+//	}
+//	else
+//	{
+//		for (auto e : elements)
+//		{
+//			if (point.x < e->size.x)
+//			{
+//				if (e->click(point))
+//					return true;
+//				else
+//					return false;
+//				break;
+//			}
+//			else {
+//				point.x -= e->size.x;
+//			}
+//		}
+//	}
+//	return false;
+//}
